@@ -23,12 +23,15 @@ public class CenterLayout extends VBox {
     private HorizontalCards heroCards;
     private VBox heroBox;
     private VBox scannerBox;
-    private Group folderIcon;
+    private Group folderOpenIcon;
     private VBox textBox;
     private StackPane textFieldBox;
+    private Result result;
 
     public CenterLayout() {
         initUI();
+        result = new Result("C:\\Users\\user\\Folder", "Incomplete");
+        result.setVisible(false);
         registerElements();
     }
 
@@ -46,11 +49,17 @@ public class CenterLayout extends VBox {
 
         directoryField = new TextField();
 
-        folderIcon = Icon.loadFolderOpenIcon();
+        folderOpenIcon = Icon.loadFolderOpenIcon();
 
-        textFieldBox = new StackPane(directoryField, folderIcon);
+        textFieldBox = new StackPane(directoryField, folderOpenIcon);
 
         scanButton = new Button("Scan");
+        scanButton.setOnAction(e -> {
+            this.getChildren().remove(result);
+            result = new Result(getEnteredDirectory(), "Complete");
+            result.setVisible(true);
+            this.getChildren().add(result);
+        });
 
         heroBox = new VBox(textBox, description);
 
@@ -78,12 +87,12 @@ public class CenterLayout extends VBox {
         directoryField.setFocusTraversable(false);
         directoryField.setPadding(new Insets(0, 0, 0, 50));
 
-        folderIcon.setTranslateX(15);
+        folderOpenIcon.setTranslateX(15);
 
         textFieldBox.setMaxWidth(directoryField.getMaxWidth());
         textFieldBox.setPadding(new Insets(10));
 
-        StackPane.setAlignment(folderIcon, Pos.CENTER_LEFT);
+        StackPane.setAlignment(folderOpenIcon, Pos.CENTER_LEFT);
 
         scanButton.setPrefSize(150, 50);
 
@@ -103,6 +112,10 @@ public class CenterLayout extends VBox {
     }
 
     private void registerElements() {
-        this.getChildren().addAll(heroBox, scannerBox, heroCards);
+        this.getChildren().addAll(heroBox, scannerBox, heroCards, result);
+    }
+
+    public String getEnteredDirectory() {
+        return directoryField.getText();
     }
 }
