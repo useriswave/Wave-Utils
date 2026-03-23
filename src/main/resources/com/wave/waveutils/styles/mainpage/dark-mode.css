@@ -1,0 +1,64 @@
+.label {
+    -fx-text-fill: white;
+}
+
+@font-face {
+    font-family: "JetBrains Mono";
+    src: url("../fonts/JetBrainsMono-Regular.ttf");
+}
+
+@font-face {
+    font-family: "Inter";
+    src: url("../fonts/Inter_18pt-SemiBold.ttf");
+}
+
+@font-face {
+    font-family: "SpaceGrotesk-Bold";
+    src: url("../fonts/SpaceGrotesk-Bold.ttf");
+}
+
+#tagline {
+    -fx-font-size: 50px;
+    -fx-font-family: "Space Grotesk";
+}
+
+#instantly-label {
+    -fx-font-size: 50px;
+    -fx-font-family: "Space Grotesk";
+    -fx-text-fill: linear-gradient(from 0% 100% to 100% 0%,#007BFF 0%,#00BFFF 100%);
+}
+
+#description {
+    -fx-text-fill: #959595;
+    -fx-font-size: 15px;
+}
+
+#directory-field {
+    -fx-font-size: 15px;
+    -fx-text-fill: white;
+    -fx-background-color: #161616;
+    -fx-border-width: 1px;
+    -fx-border-color:#303030;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+}
+
+#background {
+    -fx-background-color: transparent;
+}
+
+#background .viewport {
+    -fx-background-color: #101010;
+}
+
+#scan-button {
+    -fx-background-color: linear-gradient(from 0% 100% to 100% 0%,#007BFF 0%,#00BFFF 100%);
+    -fx-text-fill: white;
+    -fx-font-size: 20px;
+    -fx-font-family: "Inter 18pt SemiBold";
+    -fx-border-width: 2px;
+    -fx-border-color: transparent;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-cursor: hand;
+}

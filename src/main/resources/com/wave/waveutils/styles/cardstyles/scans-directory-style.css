@@ -1,0 +1,11 @@
+#card {
+    -fx-background-color: #161616;
+}
+
+#main-card-text {
+    -fx-font-size: 20px
+}
+
+#description-card-text {
+    -fx-font-size: 15px
+}

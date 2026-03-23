@@ -1,0 +1,16 @@
+#card {
+    -fx-background-color: #161616;
+    -fx-border-width: 1px;
+    -fx-border-color:#303030;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+}
+
+#main-card-text {
+    -fx-font-fill: white;
+    -fx-font-family: "Space Grotesk";
+}
+
+#description-card-text {
+    -fx-text-fill: #959595;
+}

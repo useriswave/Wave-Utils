@@ -1,0 +1,7 @@
+.icon-stroke {
+    -fx-stroke: linear-gradient(from 0% 100% to 100% 0%,#007BFF 0%,#00BFFF 100%);
+}
+
+#search-icon .icon-stroke {
+    -fx-stroke: linear-gradient(from 0% 100% to 100% 0%,#007BFF 0%,#00BFFF 100%);
+}
