@@ -2,6 +2,7 @@ module com.wave.waveutils {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.desktop;
+    requires javafx.graphics;
 //    requires com.wave.waveutils;
 //    requires com.wave.waveutils.;
 

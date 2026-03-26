@@ -1,0 +1,9 @@
+#separator .line {
+    -fx-border-color: #303030;
+    -fx-border-width: 1px;
+}
+
+#directory-result {
+    -fx-font-size: 15px;
+    -fx-text-fill: #959595;
+}

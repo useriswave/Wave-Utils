@@ -5,3 +5,13 @@
 #search-icon .icon-stroke {
     -fx-stroke: linear-gradient(from 0% 100% to 100% 0%,#007BFF 0%,#00BFFF 100%);
 }
+
+#status-result {
+    -fx-font-size: 30px;
+    -fx-font-family: "Space Grotesk";
+}
+
+#status-info-result {
+    -fx-text-fill: #959595;
+    -fx-font-size: 15px;
+}

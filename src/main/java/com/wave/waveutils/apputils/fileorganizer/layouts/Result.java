@@ -1,0 +1,134 @@
+package com.wave.waveutils.apputils.fileorganizer.layouts;
+
+import com.wave.waveutils.apputils.fileorganizer.cards.ResultCard;
+import com.wave.waveutils.apputils.fileorganizer.icons.Icon;
+import com.wave.waveutils.apputils.fileorganizer.records.FileInfo;
+import javafx.geometry.Orientation;
+import javafx.geometry.Pos;
+import javafx.scene.Group;
+import javafx.scene.control.Label;
+import javafx.scene.control.Separator;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+
+import java.util.ArrayList;
+
+public class Result extends VBox {
+
+    private Label directory;
+    private String enteredDirectory;
+    private String statusText;
+    private Group folderOpenIcon;
+    private Separator separator;
+    private Label status;
+    private Label statusInfo;
+    private HBox directoryBox;
+    private HBox resultCardsBox;
+    private ExtensionsScroller extensionsScroller;
+    private VBox operationInfoWrapper;
+
+    public Result() {}
+
+    public Result(String enteredDirectory, String statusText) {
+        this.enteredDirectory = enteredDirectory;
+        this.statusText = "Complete";
+
+
+        initUI();
+        registerElements();
+    }
+
+    private void initUI() {
+
+        directory = new Label(enteredDirectory);
+
+        folderOpenIcon = Icon.loadFolderOpenIcon();
+
+        directoryBox = new HBox(folderOpenIcon, directory);
+
+        separator = new Separator(Orientation.HORIZONTAL);
+
+        status = new Label("Organizing " + statusText);
+
+        statusInfo = new Label("Found x files across y file types");
+
+        operationInfoWrapper = new VBox(status, statusInfo);
+
+        ResultCard resultCard = new ResultCard("130",Icon.loadFilesIcon());
+        ResultCard resultCard2 = new ResultCard("8",Icon.loadFilesIcon());
+        ResultCard resultCard3 = new ResultCard("8",Icon.loadFilesIcon());
+
+        resultCardsBox = new HBox();
+
+        resultCardsBox.getChildren().addAll(resultCard, resultCard2, resultCard3);
+        resultCardsBox.setVisible(true);
+
+        // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        //          requires an ArrayList of FileInfo which will be generated in the Logic class
+
+        var infoList = new ArrayList<FileInfo>();
+        infoList.add(new FileInfo("EXE", "5"));
+        infoList.add(new FileInfo("EXE", "5"));
+        infoList.add(new FileInfo("EXE", "5"));
+        infoList.add(new FileInfo("EXE", "5"));
+        infoList.add(new FileInfo("EXE", "5"));
+        infoList.add(new FileInfo("EXE", "5"));
+        infoList.add(new FileInfo("EXE", "5"));
+        infoList.add(new FileInfo("EXE", "5"));
+        infoList.add(new FileInfo("EXE", "5"));        infoList.add(new FileInfo("EXE", "5"));
+        infoList.add(new FileInfo("EXE", "5"));
+        infoList.add(new FileInfo("EXE", "5"));
+        infoList.add(new FileInfo("EXE", "5"));
+        infoList.add(new FileInfo("EXE", "5"));
+        infoList.add(new FileInfo("EXE", "5"));
+        infoList.add(new FileInfo("EXE", "5"));
+        infoList.add(new FileInfo("EXE", "5"));
+        infoList.add(new FileInfo("EXE", "5"));
+
+
+        extensionsScroller = new ExtensionsScroller(infoList);
+
+        // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        initStyles();
+        setIds();
+
+    }
+
+    private void initStyles() {
+//        this.setSpacing(10);
+        this.setSpacing(50);
+        this.setAlignment(Pos.CENTER_LEFT);
+        this.setPrefWidth(900);
+        this.setMaxWidth(950);
+
+        directoryBox.setSpacing(10);
+        directoryBox.setAlignment(Pos.CENTER_LEFT);
+
+        status.setMaxWidth(Double.MAX_VALUE);
+        status.setAlignment(Pos.CENTER_LEFT);
+
+        statusInfo.setMaxWidth(Double.MAX_VALUE);
+        statusInfo.setAlignment(Pos.CENTER_LEFT);
+
+        operationInfoWrapper.setSpacing(10);
+
+
+        resultCardsBox.setSpacing(15);
+        resultCardsBox.setAlignment(Pos.CENTER);
+        resultCardsBox.setMaxWidth(950);
+    }
+
+    private void setIds() {
+        directory.setId("directory-result");
+        separator.setId("separator");
+        status.setId("status-result");
+        statusInfo.setId("status-info-result");
+    }
+
+    private void registerElements() {
+        this.getChildren().addAll(
+                directoryBox, separator, operationInfoWrapper, resultCardsBox, extensionsScroller
+        );
+    }
+}

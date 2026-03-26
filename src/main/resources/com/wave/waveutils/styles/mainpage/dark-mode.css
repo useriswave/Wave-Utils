@@ -61,4 +61,9 @@
     -fx-border-radius: 10px;
     -fx-background-radius: 10px;
     -fx-cursor: hand;
+
+}
+
+#text-field-stacked-icon .icon-stroke {
+    -fx-stroke: #959595;
 }

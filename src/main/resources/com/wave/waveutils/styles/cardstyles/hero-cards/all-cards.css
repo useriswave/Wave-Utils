@@ -13,4 +13,5 @@
 
 #description-card-text {
     -fx-text-fill: #959595;
+    -fx-font-family: "JetBrains Mono Regular";
 }

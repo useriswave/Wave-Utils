@@ -1,6 +1,5 @@
-package com.wave.waveutils.elementlayouts;
+package com.wave.waveutils.apputils.fileorganizer.cards;
 
-import com.wave.waveutils.cards.Card;
 import javafx.geometry.Pos;
 import javafx.scene.layout.*;
 

@@ -1,4 +1,4 @@
-package com.wave.waveutils.icons;
+package com.wave.waveutils.apputils.fileorganizer.icons;
 
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
@@ -196,6 +196,20 @@ public class Icon {
 
         Group icon = new Group(path1, path2, path3);
         icon.setId("folder-plus-icon");
+        return icon;
+    }
+
+    public static Group loadFolderIcon() {
+        SVGPath path1 = new SVGPath();
+        path1.setContent("M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z");
+        path1.setFill(Color.TRANSPARENT);
+        path1.setStrokeWidth(2);
+        path1.setStrokeLineCap(StrokeLineCap.ROUND);
+        path1.setStrokeLineJoin(StrokeLineJoin.ROUND);
+        path1.getStyleClass().add("icon-stroke");
+
+        Group icon = new Group(path1);
+        icon.setId("folder-icon");
         return icon;
     }
 }
