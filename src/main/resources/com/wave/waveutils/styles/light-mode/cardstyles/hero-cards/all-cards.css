@@ -1,0 +1,19 @@
+#card {
+    -fx-background-color: white;
+    -fx-border-width: 1px;
+    -fx-border-color:#3B3B3B;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+}
+
+#main-card-text {
+    -fx-font-size: 20px;
+    -fx-font-fill: white;
+    -fx-font-family: "Space Grotesk";
+}
+
+#description-card-text {
+    -fx-text-fill: #3B3B3B;
+    -fx-font-size: 15px;
+    -fx-font-family: "JetBrains Mono Regular";
+}

@@ -1,0 +1,59 @@
+.label {
+    -fx-font-family: "JetBrains Mono Regular";
+}
+
+#folder-label,
+ #filesfound-label,
+ #openfolder-label {
+    -fx-text-fill: red;
+    -fx-font-size: 15px;
+}
+
+#fileamount-extension-card-label {
+    -fx-text-fill: red;
+}
+
+#foldericon-extension-card-label {
+    -fx-text-fill: #959595;
+}
+
+#extension-card-label,
+#fileamount-extension-card-label {
+    -fx-text-fill: linear-gradient(from 0% 100% to 100% 0%,#007BFF 0%,#00BFFF 100%);
+    -fx-font-size: 15px;
+}
+
+#openfolder-button {
+    -fx-text-fill: white;
+    -fx-background-color: linear-gradient(from 0% 100% to 100% 0%,#007BFF 0%,#00BFFF 100%);
+    -fx-font-family: "Inter 18pt SemiBold";
+
+    -fx-border-width: 2px;
+    -fx-border-color: transparent;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-cursor: hand;
+}
+
+#extension-card-wrapper {
+    -fx-background-color: white;
+    -fx-border-width: 1px;
+    -fx-border-color:#303030;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+}
+
+#scroller-bg {
+    -fx-background-color: transparent;
+}
+
+#scroller-bg .viewport {
+    -fx-background-color: #F5F5F5;
+}
+
+#scroller-wrapper {
+    -fx-border-width: 1px;
+    -fx-border-color:#3B3B3B;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+}

@@ -173,7 +173,7 @@ public class FileOrganizer {
 
     private void createFolders() {
         for(String extension : uniqueExtensions) {
-            File extensionFolder = new File(pathName + "\\" + extension);
+            File extensionFolder = new File(pathName + "\\" + extension + " Folder");
             try {
                 if(!extensionFolder.mkdir()) {
                     // there can be many causes, we can check if there is a duplicate folder that exists.

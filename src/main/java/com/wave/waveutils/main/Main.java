@@ -18,7 +18,7 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-        new FileOrganizer().organizeFolder();
+//        new FileOrganizer().organizeFolder();
 
         final int WIDTH = 1200;
         final int HEIGHT = 800;
@@ -27,28 +27,43 @@ public class Main extends Application {
 
         Scene scene = new Scene(root, WIDTH, HEIGHT);
 
-        loadStyleSheets(scene);
+//        loadDarkMode(scene);
+        loadLightMode(scene);
 
         getFontInfo();  // for debugging
 
         stage.setScene(scene);
         // set to true
-        stage.setMaximized(false);
+        stage.setMaximized(true);
         stage.setTitle("Wave Utils");
         stage.show();
     }
 
-    private void loadStyleSheets(Scene scene) {
+    private void loadDarkMode(Scene scene) {
         scene.getStylesheets().addAll(
-                getClass().getResource("/com/wave/waveutils/styles/mainpage/dark-mode.css").toExternalForm(),
-                getClass().getResource("/com/wave/waveutils/styles/cardstyles/hero-cards/scans-directory-style.css").toExternalForm(),
-                getClass().getResource("/com/wave/waveutils/styles/cardstyles/hero-cards/organizes-files-style.css").toExternalForm(),
-                getClass().getResource("/com/wave/waveutils/styles/cardstyles/hero-cards/creates-folders-style.css").toExternalForm(),
-                getClass().getResource("/com/wave/waveutils/styles/cardstyles/hero-cards/all-cards.css").toExternalForm(),
-                getClass().getResource("/com/wave/waveutils/styles/icons/icons.css").toExternalForm(),
-                getClass().getResource("/com/wave/waveutils/styles/result/result.css").toExternalForm(),
-                getClass().getResource("/com/wave/waveutils/styles/cardstyles/result-cards/result-cards.css").toExternalForm(),
-                getClass().getResource("/com/wave/waveutils/styles/cardstyles/extension-cards/extension-card.css").toExternalForm()
+                getClass().getResource("/com/wave/waveutils/styles/dark-mode/mainpage/dark-mode.css").toExternalForm(),
+                getClass().getResource("/com/wave/waveutils/styles/dark-mode/cardstyles/hero-cards/scans-directory-style.css").toExternalForm(),
+                getClass().getResource("/com/wave/waveutils/styles/dark-mode/cardstyles/hero-cards/organizes-files-style.css").toExternalForm(),
+                getClass().getResource("/com/wave/waveutils/styles/dark-mode/cardstyles/hero-cards/creates-folders-style.css").toExternalForm(),
+                getClass().getResource("/com/wave/waveutils/styles/dark-mode/cardstyles/hero-cards/all-cards.css").toExternalForm(),
+                getClass().getResource("/com/wave/waveutils/styles/dark-mode/icons/icons.css").toExternalForm(),
+                getClass().getResource("/com/wave/waveutils/styles/dark-mode/result/result.css").toExternalForm(),
+                getClass().getResource("/com/wave/waveutils/styles/dark-mode/cardstyles/result-cards/result-cards.css").toExternalForm(),
+                getClass().getResource("/com/wave/waveutils/styles/dark-mode/cardstyles/extension-cards/extension-card.css").toExternalForm()
+        );
+    }
+
+    private void loadLightMode(Scene scene) {
+        scene.getStylesheets().addAll(
+                getClass().getResource("/com/wave/waveutils/styles/light-mode/mainpage/light-mode.css").toExternalForm(),
+                getClass().getResource("/com/wave/waveutils/styles/light-mode/cardstyles/hero-cards/scans-directory-style.css").toExternalForm(),
+                getClass().getResource("/com/wave/waveutils/styles/light-mode/cardstyles/hero-cards/organizes-files-style.css").toExternalForm(),
+                getClass().getResource("/com/wave/waveutils/styles/light-mode/cardstyles/hero-cards/creates-folders-style.css").toExternalForm(),
+                getClass().getResource("/com/wave/waveutils/styles/light-mode/cardstyles/hero-cards/all-cards.css").toExternalForm(),
+                getClass().getResource("/com/wave/waveutils/styles/light-mode/icons/icons.css").toExternalForm(),
+                getClass().getResource("/com/wave/waveutils/styles/light-mode/result/result.css").toExternalForm(),
+                getClass().getResource("/com/wave/waveutils/styles/light-mode/cardstyles/result-cards/result-cards.css").toExternalForm(),
+                getClass().getResource("/com/wave/waveutils/styles/light-mode/cardstyles/extension-cards/extension-card.css").toExternalForm()
         );
     }
 

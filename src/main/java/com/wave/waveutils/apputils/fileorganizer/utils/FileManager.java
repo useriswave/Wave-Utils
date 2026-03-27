@@ -46,9 +46,9 @@ public class FileManager {
             }
             else {
                 int largest = copiesList.get(0);
-                for(int i = 0; i < copiesList.size(); i++) {
-                    if(copiesList.get(i) > largest) {
-                        largest = copiesList.get(i);
+                for(int copyNum : copiesList) {
+                    if(copyNum > largest) {
+                        largest = copyNum;
                     }
                 }
                 copyCount = largest+1;
@@ -57,7 +57,7 @@ public class FileManager {
         }
 
         String currentDirectory = directory.getAbsolutePath();
-        File copyFile = new File(currentDirectory + "\\" +folder.getName() + COPY_IDENTIFIER + copyCount);
+        File copyFile = new File(currentDirectory + "\\" +folder.getName() + COPY_IDENTIFIER + " " + copyCount);
 
         copyFile.mkdir();
     }

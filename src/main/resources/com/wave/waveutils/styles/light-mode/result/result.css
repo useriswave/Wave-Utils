@@ -1,0 +1,13 @@
+#separator .line {
+    -fx-border-color: #D9D9D9;
+    -fx-border-width: 1px;
+}
+
+#directory-result {
+    -fx-font-size: 15px;
+    -fx-text-fill: #3B3B3B;
+}
+
+#status-info-result {
+    -fx-text-fill: #3B3B3B;
+}
