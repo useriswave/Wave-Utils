@@ -18,7 +18,7 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-        new FileOrganizer().organizeFolder();
+//        new FileOrganizer().organizeFolder();
 
         final int WIDTH = 1200;
         final int HEIGHT = 800;

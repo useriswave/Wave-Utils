@@ -36,6 +36,8 @@ public class Result extends VBox {
 
         initUI();
         registerElements();
+        initStyles();
+        setIds();
     }
 
     private void initUI() {
@@ -89,10 +91,6 @@ public class Result extends VBox {
         extensionsScroller = new ExtensionsScroller(infoList);
 
         // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
-        initStyles();
-        setIds();
-
     }
 
     private void initStyles() {

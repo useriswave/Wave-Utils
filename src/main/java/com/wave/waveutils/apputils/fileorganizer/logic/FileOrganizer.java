@@ -1,8 +1,9 @@
 package com.wave.waveutils.apputils.fileorganizer.logic;
 
-import com.wave.waveutils.apputils.fileorganizer.utils.FileManager;
+import com.wave.waveutils.apputils.fileorganizer.utils.FileHandler;
 
 import java.io.File;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -17,13 +18,14 @@ public class FileOrganizer {
     private ArrayList<File> fileWithNoExtension;
     private ArrayList<File> complicatedFiles;
     private ArrayList<String> extensions;
-
+    private File[] files;
     // temp
     private ArrayList<String> uniqueExtensions;
 
     public FileOrganizer() {
         this.pathName = "C:\\Users\\user\\Downloads\\Testing Folder";
         this.directory = new File(pathName);
+        this.files = directory.listFiles();
     }
 
     public void organizeFolder() {
@@ -35,7 +37,6 @@ public class FileOrganizer {
     }
 
     private void separateFilesAndFolders() {
-        File[] files = directory.listFiles();
         fileList = new ArrayList<File>();
         folderList = new ArrayList<File>();
         unknownFileList = new ArrayList<File>();
@@ -188,16 +189,16 @@ public class FileOrganizer {
 
                         switch(input) {
                             case 1:
-                                FileManager.deleteFolder(extensionFolder);
+                                FileHandler.deleteFolder(extensionFolder);
                                 break;
                             case 2:
-                                FileManager.overWriteFolder(extensionFolder);
+                                FileHandler.overWriteFolder(extensionFolder);
                                 break;
                             case 3:
                                 System.out.println("Will be used.");
                                 break;
                             case 4:
-                                extensionFolder = FileManager.createCopy(extensionFolder, directory);
+                                extensionFolder = FileHandler.createCopy(extensionFolder, directory);
                                 break;
                             default:
                                 System.out.println("Invalid entry");
@@ -217,6 +218,16 @@ public class FileOrganizer {
                 System.out.println(e.getCause() + "\nPermission error, please check your directory's permission");
             }
 
+        }
+    }
+
+    private void moveFiles() {
+        for(String extension : uniqueExtensions) {
+            for(File file : files) {
+                if(file.getName().equalsIgnoreCase(extension)) {
+
+                }
+            }
         }
     }
 }

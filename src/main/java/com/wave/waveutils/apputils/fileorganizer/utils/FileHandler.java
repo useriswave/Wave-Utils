@@ -3,11 +3,11 @@ package com.wave.waveutils.apputils.fileorganizer.utils;
 import java.io.File;
 import java.util.ArrayList;
 
-public class FileManager {
+public class FileHandler {
 
     private static final String COPY_IDENTIFIER = "_Copy";
 
-    private FileManager() {}
+    private FileHandler() {}
 
     public static void deleteFolder(File folder) {
         folder.delete();
@@ -66,8 +66,5 @@ public class FileManager {
         copyFile.mkdir();
 
         return copyFile;
-
-//        copyFile.mkdir();
     }
-
 }
