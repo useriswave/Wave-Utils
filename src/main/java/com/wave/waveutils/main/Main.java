@@ -7,6 +7,8 @@ import javafx.scene.Scene;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+
 public class Main extends Application {
 
     public static void main(String[] args) {
@@ -53,24 +55,13 @@ public class Main extends Application {
     // TEMPORARY METHOD FOR DEBUGGING!!!!
 
     private void getFontInfo() {
-        Font grotesk = Font.loadFont(
-                getClass().getResourceAsStream("/com/wave/waveutils/fonts/SpaceGrotesk-Bold.ttf"), 20
+        var fontList = new ArrayList<String>();
+        fontList.add("/com/wave/waveutils/fonts/SpaceGrotesk-Bold.ttf");
+        fontList.add("/com/wave/waveutils/fonts/Inter_18pt-SemiBold.ttf");
+        fontList.add("/com/wave/waveutils/fonts/JetBrainsMono-Regular.ttf");
 
-        );
-        System.out.println(grotesk.getName());
-        System.out.println(grotesk.getFamily());
-        Font inter = Font.loadFont(
-                getClass().getResourceAsStream("/com/wave/waveutils/fonts/Inter_18pt-SemiBold.ttf"), 20
-
-        );
-        System.out.println(inter.getName());
-        System.out.println(inter.getFamily());
-
-        Font jetbrains = Font.loadFont(
-                getClass().getResourceAsStream("/com/wave/waveutils/fonts/JetBrainsMono-Regular.ttf"), 20
-
-        );
-        System.out.println(jetbrains.getName());
-        System.out.println(jetbrains.getFamily());
+        for(int i = 0; i < fontList.size(); i++) {
+            System.out.println("Font Family: " + Font.loadFont(getClass().getResourceAsStream(fontList.get(i)), 20).getFamily());
+        }
     }
 }
