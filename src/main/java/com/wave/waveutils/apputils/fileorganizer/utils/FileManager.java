@@ -13,7 +13,10 @@ public class FileManager {
         folder.delete();
     }
 
+    // a better overwrite feature will be implemented later. I will prioritize finishing the project.
+
     public static void overWriteFolder(File folder) {
+
         File[] files = folder.listFiles();
 
         for(File file : files) {
@@ -24,7 +27,7 @@ public class FileManager {
         folder.mkdir();
     }
 
-    public static void createCopy(File folder, File directory) {
+    public static File createCopy(File folder, File directory) {
         int copyCount = 0;
         File[] files = directory.listFiles();
         var copiesList = new ArrayList<Integer>();
@@ -32,7 +35,8 @@ public class FileManager {
             if(file.getName().equals(folder.getName())) {
                 copyCount++;
             }
-            else if(file.getName().contains(folder.getName() + COPY_IDENTIFIER)) {
+
+            else if (file.getName().contains(folder.getName() + COPY_IDENTIFIER)) {
                 String folderCopyCount = file.getName().substring(file.getName().length() - 1);
                 int folderCount = Integer.parseInt(folderCopyCount);
 
@@ -57,9 +61,13 @@ public class FileManager {
         }
 
         String currentDirectory = directory.getAbsolutePath();
-        File copyFile = new File(currentDirectory + "\\" +folder.getName() + COPY_IDENTIFIER + " " + copyCount);
 
+        File copyFile = new File(currentDirectory + "\\" +folder.getName() + COPY_IDENTIFIER + " " + copyCount);
         copyFile.mkdir();
+
+        return copyFile;
+
+//        copyFile.mkdir();
     }
 
 }

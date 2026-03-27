@@ -179,8 +179,7 @@ public class FileOrganizer {
                     // there can be many causes, we can check if there is a duplicate folder that exists.
                     if(extensionFolder.exists()) {
                         /*
-                         instead of asking the user to delete the folder,
-                         we can ask if we should create a copy, overwrite it, or leave it
+                            TODO: Make a list of foldersCreated to then add the files accordingly.
                          */
                         System.out.printf("Folder '%s' already exists!\nWould you like to:\n1- Delete it\n2- Overwrite it\n3- Use it.\n4- Create copy\n\nInput: \n", extension);
                         Scanner sc = new Scanner(System.in);
@@ -198,7 +197,7 @@ public class FileOrganizer {
                                 System.out.println("Will be used.");
                                 break;
                             case 4:
-                                FileManager.createCopy(extensionFolder, directory);
+                                extensionFolder = FileManager.createCopy(extensionFolder, directory);
                                 break;
                             default:
                                 System.out.println("Invalid entry");
@@ -209,6 +208,7 @@ public class FileOrganizer {
                         System.out.printf("Folder '%s' cannot be created.\n", extension);
                     }
                 }
+
                 else {
                     System.out.printf("Folder '%s' has been created!\n", extension);
                 }
