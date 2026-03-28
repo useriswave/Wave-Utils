@@ -3,7 +3,6 @@ package com.wave.waveutils.apputils.fileorganizer.logic;
 import com.wave.waveutils.apputils.fileorganizer.utils.FileHandler;
 
 import java.io.File;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -18,6 +17,8 @@ public class FileOrganizer {
     private ArrayList<File> fileWithNoExtension;
     private ArrayList<File> complicatedFiles;
     private ArrayList<String> extensions;
+    private ArrayList<String> sourcePaths;
+    private FileHandler fileHandler;
     private File[] files;
     // temp
     private ArrayList<String> uniqueExtensions;
@@ -26,6 +27,8 @@ public class FileOrganizer {
         this.pathName = "C:\\Users\\user\\Downloads\\Testing Folder";
         this.directory = new File(pathName);
         this.files = directory.listFiles();
+        this.sourcePaths = new ArrayList<>();
+        this.fileHandler = new FileHandler(sourcePaths);
     }
 
     public void organizeFolder() {
@@ -189,16 +192,17 @@ public class FileOrganizer {
 
                         switch(input) {
                             case 1:
-                                FileHandler.deleteFolder(extensionFolder);
+                                fileHandler.deleteFolder(extensionFolder);
                                 break;
                             case 2:
-                                FileHandler.overWriteFolder(extensionFolder);
+                                fileHandler.overWriteFolder(extensionFolder);
                                 break;
                             case 3:
+                                fileHandler.useExistingFolder(extensionFolder);
                                 System.out.println("Will be used.");
                                 break;
                             case 4:
-                                extensionFolder = FileHandler.createCopy(extensionFolder, directory);
+                                extensionFolder = fileHandler.createCopy(extensionFolder, directory);
                                 break;
                             default:
                                 System.out.println("Invalid entry");
@@ -211,6 +215,7 @@ public class FileOrganizer {
                 }
 
                 else {
+                    sourcePaths.add(extensionFolder.getAbsolutePath());
                     System.out.printf("Folder '%s' has been created!\n", extension);
                 }
             }
@@ -219,6 +224,7 @@ public class FileOrganizer {
             }
 
         }
+        printSourcePaths();
     }
 
     private void moveFiles() {
@@ -230,4 +236,13 @@ public class FileOrganizer {
             }
         }
     }
+
+    // temporary
+    public void printSourcePaths() {
+        int count = 0;
+        for(String path : sourcePaths) {
+            System.out.println("Path " + ++count + ": " + path);
+        }
+    }
+
 }

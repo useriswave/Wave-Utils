@@ -18,7 +18,7 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-//        new FileOrganizer().organizeFolder();
+        new FileOrganizer().organizeFolder();
 
         final int WIDTH = 1200;
         final int HEIGHT = 800;
@@ -33,7 +33,6 @@ public class Main extends Application {
         getFontInfo();  // for debugging
 
         stage.setScene(scene);
-        // set to true
         stage.setMaximized(true);
         stage.setTitle("Wave Utils");
         stage.show();
