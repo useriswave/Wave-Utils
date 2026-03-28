@@ -6,10 +6,10 @@ import java.util.ArrayList;
 public class FileHandler {
 
     private final String COPY_IDENTIFIER = "_Copy";
-    private ArrayList<String> sourcePaths;
+    private ArrayList<File> selectedFolders;
 
-    public FileHandler(ArrayList<String> sourcePaths) {
-        this.sourcePaths = sourcePaths;
+    public FileHandler(ArrayList<File> selectedFolders) {
+        this.selectedFolders = selectedFolders;
     }
 
     public void deleteFolder(File folder) {
@@ -17,7 +17,7 @@ public class FileHandler {
     }
 
     public void useExistingFolder(File folder) {
-        sourcePaths.add(folder.getAbsolutePath());
+        selectedFolders.add(folder);
     }
 
     // a better overwrite feature will be implemented later. I will prioritize finishing the project.
@@ -32,7 +32,7 @@ public class FileHandler {
 
         folder.delete();
         folder.mkdir();
-        sourcePaths.add(folder.getAbsolutePath());
+        selectedFolders.add(folder);
     }
 
     public File createCopy(File folder, File directory) {
@@ -73,7 +73,7 @@ public class FileHandler {
         File copyFile = new File(currentDirectory + "\\" +folder.getName() + COPY_IDENTIFIER + " " + copyCount);
         copyFile.mkdir();
 
-        sourcePaths.add(copyFile.getAbsolutePath());
+        selectedFolders.add(copyFile);
 
         return copyFile;
     }
