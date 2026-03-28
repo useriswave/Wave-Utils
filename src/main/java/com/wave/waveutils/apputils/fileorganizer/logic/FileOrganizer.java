@@ -39,7 +39,7 @@ public class FileOrganizer {
         getAllExtensions();
         removeDuplicateExtensions();
         createFolders();
-        moveValidFiles();
+        moveFiles();
     }
 
     private void separateFilesAndFolders() {
@@ -220,30 +220,57 @@ public class FileOrganizer {
         printSelectedSourceFolders();
     }
 
-    private void moveValidFiles() {
+    private void moveFiles() {
+        moveValidFiles();
+        moveComplicatedFiles();
+    }
+
+    private boolean moveValidFiles() {
         for (String extension : uniqueExtensions) {
             for (File file : validFiles) {
                 String fileName = file.getName();
-                System.out.println("FILE NAME: " + fileName);
                 String fileExtension = fileName.substring(fileName.lastIndexOf('.'));
-                System.out.println("FILE EX: " + fileExtension);
 
                 if (fileExtension.equalsIgnoreCase(extension)) {
                     Path source = file.toPath();
                     Path target = getProperSourceFolder(extension, fileName).toPath();
-                    System.out.println("Source: " + source.toFile().getAbsolutePath());
-                    System.out.println("Target: " + target.toFile().getAbsolutePath());
+
                     try {
                         Files.move(source, target);
                     } catch (IOException e) {
                         System.out.println(e.getMessage());
                         e.printStackTrace();
+                        return false;
                     }
                 }
 
+            }
+        }
+        return true;
+    }
+
+    private boolean moveComplicatedFiles() {
+        for (String extension : uniqueExtensions) {
+            for (File file : complicatedFiles) {
+                String fileName = file.getName();
+                String fileExtension = fileName.substring(fileName.lastIndexOf('.'));
+
+                if (fileExtension.equalsIgnoreCase(extension)) {
+                    Path source = file.toPath();
+                    Path target = getProperSourceFolder(extension, fileName).toPath();
+
+                    try {
+                        Files.move(source, target);
+                    } catch (IOException e) {
+                        System.out.println(e.getMessage());
+                        e.printStackTrace();
+                        return false;
+                    }
+                }
 
             }
         }
+        return true;
     }
 
     private File getProperSourceFolder(String extension, String fileName) {
