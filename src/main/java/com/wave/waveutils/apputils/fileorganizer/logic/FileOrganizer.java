@@ -221,13 +221,14 @@ public class FileOrganizer {
     }
 
     private void moveFiles() {
-        moveValidFiles();
-        moveComplicatedFiles();
+        moveFilesWithExtensions(validFiles);
+        moveFilesWithExtensions(complicatedFiles);
+
     }
 
-    private boolean moveValidFiles() {
-        for (String extension : uniqueExtensions) {
-            for (File file : validFiles) {
+    private void moveFilesWithExtensions(ArrayList<File> listOfFiles) {
+        for(String extension : uniqueExtensions) {
+            for (File file : listOfFiles) {
                 String fileName = file.getName();
                 String fileExtension = fileName.substring(fileName.lastIndexOf('.'));
 
@@ -240,37 +241,11 @@ public class FileOrganizer {
                     } catch (IOException e) {
                         System.out.println(e.getMessage());
                         e.printStackTrace();
-                        return false;
                     }
                 }
 
             }
         }
-        return true;
-    }
-
-    private boolean moveComplicatedFiles() {
-        for (String extension : uniqueExtensions) {
-            for (File file : complicatedFiles) {
-                String fileName = file.getName();
-                String fileExtension = fileName.substring(fileName.lastIndexOf('.'));
-
-                if (fileExtension.equalsIgnoreCase(extension)) {
-                    Path source = file.toPath();
-                    Path target = getProperSourceFolder(extension, fileName).toPath();
-
-                    try {
-                        Files.move(source, target);
-                    } catch (IOException e) {
-                        System.out.println(e.getMessage());
-                        e.printStackTrace();
-                        return false;
-                    }
-                }
-
-            }
-        }
-        return true;
     }
 
     private File getProperSourceFolder(String extension, String fileName) {
