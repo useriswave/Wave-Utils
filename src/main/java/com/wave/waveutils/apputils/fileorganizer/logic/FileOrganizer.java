@@ -1,5 +1,6 @@
 package com.wave.waveutils.apputils.fileorganizer.logic;
 
+import com.wave.waveutils.apputils.fileorganizer.records.FileInfo;
 import com.wave.waveutils.apputils.fileorganizer.utils.FileHandler;
 
 import java.io.File;
@@ -22,23 +23,25 @@ public class FileOrganizer {
     private ArrayList<String> extensions;
     private ArrayList<File> selectedFolders;
     private FileHandler fileHandler;
-    private File[] files;
+    private File[] allFiles;
     private ArrayList<String> uniqueExtensions;
     private File directoryFolder;
     private File unknownFilesFolder;
     private String directoryFolderName;
     private String unknownFilesFolderName;
     private String filesWithNoExtensionFolderName;
+    private int totalFoldersCreated;
 
     public FileOrganizer() {
         this.pathName = "C:\\Users\\user\\Downloads\\Testing Folder";
         this.directory = new File(pathName);
-        this.files = directory.listFiles();
+        this.allFiles = directory.listFiles();
         this.selectedFolders = new ArrayList<>();
         this.fileHandler = new FileHandler(selectedFolders);
         this.directoryFolderName = "Folders";
         this.unknownFilesFolderName = "Unknown Files";
         this.filesWithNoExtensionFolderName = "Extensionless Files";
+        this.totalFoldersCreated = 0;
     }
 
     public void organizeFolder() {
@@ -48,6 +51,8 @@ public class FileOrganizer {
         removeDuplicateExtensions();
         createFolders();
         moveFiles();
+
+        printSelectedSourceFolders();
     }
 
     private void separateFilesAndFolders() {
@@ -55,7 +60,7 @@ public class FileOrganizer {
         folderList = new ArrayList<File>();
         unknownFileList = new ArrayList<File>();
 
-        for (File file : files) {
+        for (File file : allFiles) {
             if (file.isFile()) {
                 fileList.add(file);
             } else if (file.isDirectory()) {
@@ -312,5 +317,50 @@ public class FileOrganizer {
         for (File folder : selectedFolders) {
             System.out.println("Path " + (++count) + ": " + folder.getName());
         }
+    }
+
+
+
+    public int getTotalFiles() {
+        return allFiles.length;
+    }
+
+    public int getTotalFoldersCreated() {
+        return selectedFolders.size();
+    }
+
+    public long getTotalFilesSizeGB() {
+        long bytes = 0;
+        for(File file : allFiles) {
+            bytes+= file.length();
+        }
+        return bytes / 1000000000;
+    }
+
+    public ArrayList<FileInfo> getFileInfoList() {
+        var fileInfoList = new ArrayList<FileInfo>();
+        for(File folder : selectedFolders) {
+            fileInfoList.add(new FileInfo(getExtension(folder.getName()), Integer.toString(folder.listFiles().length)));
+        }
+        return fileInfoList;
+    }
+
+    private void printFileInfoList(ArrayList<FileInfo> fileInfoList) {
+        for(FileInfo info : fileInfoList) {
+            System.out.println("Folder:" + info.extensionText() + "\n" + info.fileAmountText() + " files");
+        }
+    }
+
+    /**
+     * Gets the file extension of a fileName String
+     * @param fileName
+     * @return a String of fileName's extension. Otherwise, fileName
+     */
+
+    private String getExtension(String fileName) {
+        if(fileName.contains(".")) {
+            return fileName.substring(fileName.lastIndexOf('.'));
+        }
+        return fileName;
     }
 }
