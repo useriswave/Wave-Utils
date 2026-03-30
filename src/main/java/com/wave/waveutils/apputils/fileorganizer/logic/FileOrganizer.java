@@ -25,6 +25,10 @@ public class FileOrganizer {
     private File[] files;
     private ArrayList<String> uniqueExtensions;
     private File directoryFolder;
+    private File unknownFilesFolder;
+    private String directoryFolderName;
+    private String unknownFilesFolderName;
+    private String filesWithNoExtensionFolderName;
 
     public FileOrganizer() {
         this.pathName = "C:\\Users\\user\\Downloads\\Testing Folder";
@@ -32,6 +36,9 @@ public class FileOrganizer {
         this.files = directory.listFiles();
         this.selectedFolders = new ArrayList<>();
         this.fileHandler = new FileHandler(selectedFolders);
+        this.directoryFolderName = "Folders";
+        this.unknownFilesFolderName = "Unknown Files";
+        this.filesWithNoExtensionFolderName = "Extensionless Files";
     }
 
     public void organizeFolder() {
@@ -39,8 +46,7 @@ public class FileOrganizer {
         sortValidAndComplicatedFiles();
         getAllExtensions();
         removeDuplicateExtensions();
-        createExtensionFolders();
-        createDirectoryFolder();
+        createFolders();
         moveFiles();
     }
 
@@ -174,6 +180,21 @@ public class FileOrganizer {
         }
     }
 
+    private void createFolders() {
+        createExtensionFolders();
+        createExtensionlessFolders(directoryFolderName, folderList, directoryFolder);
+        createExtensionlessFolders(filesWithNoExtensionFolderName, fileWithNoExtension, unknownFilesFolder);
+        createExtensionlessFolders(unknownFilesFolderName, unknownFileList, unknownFilesFolder);
+    }
+
+    private void moveFiles() {
+        moveFilesWithExtensions(validFiles);
+        moveFilesWithExtensions(complicatedFiles);
+        moveExtensionlessFiles(folderList, directoryFolderName);
+        moveExtensionlessFiles(unknownFileList, unknownFilesFolderName);
+        moveExtensionlessFiles(fileWithNoExtension, filesWithNoExtensionFolderName);
+    }
+
     private void createExtensionFolders() {
         for (String extension : uniqueExtensions) {
             File extensionFolder = new File(pathName + "\\" + extension + " Folder");
@@ -222,28 +243,6 @@ public class FileOrganizer {
         printSelectedSourceFolders();
     }
 
-    private boolean createDirectoryFolder() {
-        if(!folderList.isEmpty()) {
-            this.directoryFolder = new File(pathName + "\\" + "Folders");
-
-            if(directoryFolder.mkdir()) {
-                System.out.println("Folder 'Folders' has been created.");
-                selectedFolders.add(directoryFolder);
-                return true;
-            }
-        }
-
-        System.out.println("Folder 'Folders' has not been created.");
-        return false;
-    }
-
-    private void moveFiles() {
-        moveFilesWithExtensions(validFiles);
-        moveFilesWithExtensions(complicatedFiles);
-        moveDirectoriesToFolder();
-
-    }
-
     private void moveFilesWithExtensions(ArrayList<File> listOfFiles) {
         for(String extension : uniqueExtensions) {
             for (File file : listOfFiles) {
@@ -266,13 +265,13 @@ public class FileOrganizer {
         }
     }
 
-    private void moveDirectoriesToFolder() {
+    private void moveExtensionlessFiles(ArrayList<File> listOfFiles, String targetFolderName) {
 
-        for(File folder : folderList) {
+        for(File folder : listOfFiles) {
             String fileName = folder.getName();
 
             Path source = folder.toPath();
-            Path target = getProperSourceFolder("Folders", fileName).toPath();
+            Path target = getProperSourceFolder(targetFolderName, fileName).toPath();
 
             try {
                 Files.move(source, target);
@@ -282,6 +281,21 @@ public class FileOrganizer {
             }
         }
     }
+
+    private boolean createExtensionlessFolders(String folderName, ArrayList<File> listOfFiles, File folderToCreate) {
+        System.out.println(listOfFiles);
+        if(!listOfFiles.isEmpty()) {
+            folderToCreate = new File(pathName + "\\" + folderName);
+            if(folderToCreate.mkdir()) {
+                System.out.println("Folder " + folderName + " has been created.");
+                selectedFolders.add(folderToCreate);
+                return true;
+            }
+        }
+
+        System.out.println("Folder " + folderName + " has not been created.");
+        return false;
+        }
 
     private File getProperSourceFolder(String directoryName, String fileName) {
         for (File folder : selectedFolders) {
