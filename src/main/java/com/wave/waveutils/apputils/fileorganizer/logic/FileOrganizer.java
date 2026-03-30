@@ -24,6 +24,7 @@ public class FileOrganizer {
     private FileHandler fileHandler;
     private File[] files;
     private ArrayList<String> uniqueExtensions;
+    private File directoryFolder;
 
     public FileOrganizer() {
         this.pathName = "C:\\Users\\user\\Downloads\\Testing Folder";
@@ -38,7 +39,8 @@ public class FileOrganizer {
         sortValidAndComplicatedFiles();
         getAllExtensions();
         removeDuplicateExtensions();
-        createFolders();
+        createExtensionFolders();
+        createDirectoryFolder();
         moveFiles();
     }
 
@@ -172,7 +174,7 @@ public class FileOrganizer {
         }
     }
 
-    private void createFolders() {
+    private void createExtensionFolders() {
         for (String extension : uniqueExtensions) {
             File extensionFolder = new File(pathName + "\\" + extension + " Folder");
             try {
@@ -220,9 +222,25 @@ public class FileOrganizer {
         printSelectedSourceFolders();
     }
 
+    private boolean createDirectoryFolder() {
+        if(!folderList.isEmpty()) {
+            this.directoryFolder = new File(pathName + "\\" + "Folders");
+
+            if(directoryFolder.mkdir()) {
+                System.out.println("Folder 'Folders' has been created.");
+                selectedFolders.add(directoryFolder);
+                return true;
+            }
+        }
+
+        System.out.println("Folder 'Folders' has not been created.");
+        return false;
+    }
+
     private void moveFiles() {
         moveFilesWithExtensions(validFiles);
         moveFilesWithExtensions(complicatedFiles);
+        moveDirectoriesToFolder();
 
     }
 
@@ -248,11 +266,27 @@ public class FileOrganizer {
         }
     }
 
-    private File getProperSourceFolder(String extension, String fileName) {
+    private void moveDirectoriesToFolder() {
+
+        for(File folder : folderList) {
+            String fileName = folder.getName();
+
+            Path source = folder.toPath();
+            Path target = getProperSourceFolder("Folders", fileName).toPath();
+
+            try {
+                Files.move(source, target);
+            }
+            catch(IOException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+    private File getProperSourceFolder(String directoryName, String fileName) {
         for (File folder : selectedFolders) {
-            if (folder.getName().contains(extension)) {
-                File targetRepresentation = new File(folder.getAbsolutePath() + "\\" + fileName);
-                return targetRepresentation;
+            if (folder.getName().contains(directoryName)) {
+                return new File(folder.getAbsolutePath() + "\\" + fileName);
             }
         }
         return null;

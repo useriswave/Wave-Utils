@@ -54,10 +54,10 @@ public class FileHandler {
 
         if(!copiesList.isEmpty()) {
             if(copiesList.size() == 1) {
-                copyCount = copiesList.get(0) + 1;
+                copyCount = copiesList.getFirst() + 1;
             }
             else {
-                int largest = copiesList.get(0);
+                int largest = copiesList.getFirst();
                 for(int copyNum : copiesList) {
                     if(copyNum > largest) {
                         largest = copyNum;
@@ -70,8 +70,11 @@ public class FileHandler {
 
         String currentDirectory = directory.getAbsolutePath();
 
-        File copyFile = new File(currentDirectory + "\\" +folder.getName() + COPY_IDENTIFIER + " " + copyCount);
-        copyFile.mkdir();
+        File copyFile = new File(currentDirectory + "\\" + folder.getName() + COPY_IDENTIFIER + " " + copyCount);
+
+        if(!copyFile.mkdir()) {
+            System.out.printf("File '%s' has not been created.\n", copyFile.getName());
+        }
 
         selectedFolders.add(copyFile);
 
