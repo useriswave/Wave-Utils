@@ -12,7 +12,7 @@ import java.util.Scanner;
 
 public class FileOrganizer {
 
-    private String pathName;
+    private String path;
     private File directory;
     private ArrayList<File> fileList;
     private ArrayList<File> folderList;
@@ -31,10 +31,11 @@ public class FileOrganizer {
     private String unknownFilesFolderName;
     private String filesWithNoExtensionFolderName;
     private int totalFoldersCreated;
+    Scanner sc = new Scanner(System.in);
 
-    public FileOrganizer() {
-        this.pathName = "C:\\Users\\user\\Downloads\\Testing Folder";
-        this.directory = new File(pathName);
+    public FileOrganizer(String path) {
+        this.path = path;
+        this.directory = new File(this.path);
         this.allFiles = directory.listFiles();
         this.selectedFolders = new ArrayList<>();
         this.fileHandler = new FileHandler(selectedFolders);
@@ -202,22 +203,22 @@ public class FileOrganizer {
 
     private void createExtensionFolders() {
         for (String extension : uniqueExtensions) {
-            File extensionFolder = new File(pathName + "\\" + extension + " Folder");
+            boolean addable = true;
+            File extensionFolder = new File(path + "\\" + extension + " Folder");
             try {
                 if (!extensionFolder.mkdir()) {
                     // there can be many causes, we can check if there is a duplicate folder that exists.
                     if (extensionFolder.exists()) {
-                        /*
-                            TODO: Make a list of foldersCreated to then add the files accordingly.
-                         */
+
                         System.out.printf("Folder '%s' already exists!\nWould you like to:\n1- Delete it\n2- Overwrite it\n3- Use it.\n4- Create copy\n\nInput: \n", extension);
-                        Scanner sc = new Scanner(System.in);
+
                         int input = sc.nextInt();
                         sc.nextLine();
 
                         switch (input) {
                             case 1:
                                 fileHandler.deleteFolder(extensionFolder);
+                                addable = false;
                                 break;
                             case 2:
                                 fileHandler.overWriteFolder(extensionFolder);
@@ -231,15 +232,24 @@ public class FileOrganizer {
                                 break;
                             default:
                                 System.out.println("Invalid entry");
+                                addable = false;
                                 break;
                         }
+
+
+
                     } else {
                         System.out.printf("Folder '%s' cannot be created.\n", extension);
+                        addable = false;
                     }
-                } else {
+                }
+
+                if(addable) {
                     selectedFolders.add(extensionFolder);
                     System.out.printf("Folder '%s' has been created!\n", extension);
                 }
+
+
             } catch (SecurityException e) {
                 System.out.println(e.getCause() + "\nPermission error, please check your directory's permission");
             }
@@ -290,7 +300,7 @@ public class FileOrganizer {
     private boolean createExtensionlessFolders(String folderName, ArrayList<File> listOfFiles, File folderToCreate) {
         System.out.println(listOfFiles);
         if(!listOfFiles.isEmpty()) {
-            folderToCreate = new File(pathName + "\\" + folderName);
+            folderToCreate = new File(path + "\\" + folderName);
             if(folderToCreate.mkdir()) {
                 System.out.println("Folder " + folderName + " has been created.");
                 selectedFolders.add(folderToCreate);
@@ -350,12 +360,6 @@ public class FileOrganizer {
             System.out.println("Folder:" + info.extensionText() + "\n" + info.fileAmountText() + " files");
         }
     }
-
-    /**
-     * Gets the file extension of a fileName String
-     * @param fileName
-     * @return a String of fileName's extension. Otherwise, fileName
-     */
 
     private String getExtension(String fileName) {
         if(fileName.contains(".")) {
