@@ -2,11 +2,16 @@ package com.wave.waveutils.apputils.fileorganizer.layouts;
 
 import com.wave.waveutils.apputils.fileorganizer.cards.Card;
 import com.wave.waveutils.apputils.fileorganizer.cards.HorizontalCards;
+import com.wave.waveutils.apputils.fileorganizer.dialogs.ConflictDialog;
+import com.wave.waveutils.apputils.fileorganizer.dialogs.ErrorDialog;
 import com.wave.waveutils.apputils.fileorganizer.icons.Icon;
+import com.wave.waveutils.apputils.fileorganizer.logic.FileOrganizer;
+import com.wave.waveutils.apputils.fileorganizer.records.FolderDecision;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -17,6 +22,7 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import java.io.File;
+import java.util.ArrayList;
 
 public class CenterLayout extends VBox {
 
@@ -37,11 +43,12 @@ public class CenterLayout extends VBox {
     private final Stage stage;
     private File folder;
     private boolean fieldClicked = false;
+    private FileOrganizer fileOrganizer;
 
     public CenterLayout(Stage stage) {
         this.stage = stage;
         initUI();
-        result = new Result("C:\\Users\\user\\  Folder", "Incomplete");
+        result = new Result();
         result.setVisible(false);
         result.setManaged(false);
         setIds();
@@ -150,22 +157,39 @@ public class CenterLayout extends VBox {
             }
 
             if(folder == null) {
-                System.out.println("Dir cant be null!");
+                new ErrorDialog("Null Directory", "Directory is null!\nDEV: (CHECK LINE 158: CenterLayout)", "Directory Error");
                 return;
             }
 
             result.setVisible(false);
             result.setManaged(false);
 
-            System.out.println("FOLDER PATH: " + folder.getAbsolutePath());
-            System.out.println("ENTERED DIR: " + getEnteredDirectory());
-
             if(!folder.exists() || !folder.isDirectory()) {
-                System.out.printf("'%s' is not valid.\nPlease enter a valid directory!\n", getEnteredDirectory());
+                new ErrorDialog("Invalid Directory", getEnteredDirectory() + " is not valid.\nPlease enter a valid directory.", "Directory Error")
+                        .showAndWait();
+
                 return;
             }
 
-            result = new Result(trimmedDirectory, "Complete");
+            fileOrganizer = new FileOrganizer(folder.getAbsolutePath());
+            fileOrganizer.scanDirectory();
+
+            var conflictingList = fileOrganizer.findConflictingFolders();
+            if(!conflictingList.isEmpty()) {
+                var conflictDecisions = new ArrayList<FolderDecision>();
+
+                for(File conflictingFile : conflictingList) {
+                    var conflictDialog = new ConflictDialog(conflictingFile, stage);
+                    conflictDecisions.add(conflictDialog.getUserConflictDecision());
+                }
+
+                fileOrganizer.applyConflictDecisions(conflictDecisions);
+            }
+
+            fileOrganizer.createAllFolders();
+            fileOrganizer.moveAllFiles();
+
+            result = new Result(trimmedDirectory, "Complete", fileOrganizer.getFileInfoList());
             result.setVisible(true);
             result.setManaged(true);
             result.setAlignment(Pos.CENTER);
