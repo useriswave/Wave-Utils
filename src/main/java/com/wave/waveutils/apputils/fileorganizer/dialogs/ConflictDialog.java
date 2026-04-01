@@ -1,5 +1,7 @@
 package com.wave.waveutils.apputils.fileorganizer.dialogs;
 
+import com.wave.waveutils.apputils.fileorganizer.enums.FolderAction;
+import com.wave.waveutils.apputils.fileorganizer.records.FolderDecision;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -16,40 +18,40 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
+import java.io.File;
+
 public class ConflictDialog extends BorderPane {
 
     private final int WIDTH;
     private final int HEIGHT;
-
+    private File conflictingFolder;
     private Stage stage;
-
     private HBox centerHBox;
     private StackPane iconPane;
     private Circle circleIcon;
     private VBox textVBox;
     private Label mainTextLabel;
     private Label subTextLabel;
-
     private HBox bottomHBox;
     private Button useExistingBtn;
     private HBox rightButtonsHBox;
-    private Button deleteBtn;
     private Button createCopyBtn;
+    private FolderAction folderAction;
+    private Window ownerWin;
 
-    public ConflictDialog() {
+    public ConflictDialog(File conflictingFolder, Window ownerWin) {
         this.WIDTH = 500;
         this.HEIGHT = 200;
-
-        this.setPrefSize(WIDTH, HEIGHT);
+        this.conflictingFolder = conflictingFolder;
+        this.ownerWin = ownerWin;
 
         initUI();
-        handleEvents();
         setIds();
         initStyles();
         registerElements();
     }
 
-    public void showDialog(Window ownerWin) {
+    public void showDialog() {
         stage = new Stage();
         var scene = new Scene(this, WIDTH, HEIGHT);
 
@@ -79,18 +81,18 @@ public class ConflictDialog extends BorderPane {
         circleIcon = new Circle(21);
 
         textVBox = new VBox();
-        mainTextLabel = new Label("This destination already contains a folder named \"Downloads\".");
+        mainTextLabel = new Label("This destination already contains a folder named \"" + conflictingFolder.getName() + "\".");
         subTextLabel = new Label("How would you like to resolve this conflict?");
 
         bottomHBox = new HBox();
         useExistingBtn = new Button("Use existing");
 
         rightButtonsHBox = new HBox();
-        deleteBtn = new Button("Delete");
         createCopyBtn = new Button("Create Copy");
     }
 
     private void initStyles() {
+        this.setPrefSize(WIDTH, HEIGHT);
         centerHBox.setAlignment(Pos.TOP_LEFT);
         centerHBox.setSpacing(20);
         centerHBox.setPadding(new Insets(24));
@@ -107,22 +109,31 @@ public class ConflictDialog extends BorderPane {
 
         var buttonPadding = new Insets(6, 16, 6, 16);
         useExistingBtn.setPadding(buttonPadding);
-        deleteBtn.setPadding(buttonPadding);
         createCopyBtn.setPadding(buttonPadding);
     }
 
-    private void handleEvents() {
+    private void useExistingHandler() {
         useExistingBtn.setOnAction(e -> {
+            this.folderAction = FolderAction.USE_EXISTING;
             closeDialog();
         });
 
-        deleteBtn.setOnAction(e -> {
-            closeDialog();
-        });
+    }
 
+    private void createCopyHandler() {
         createCopyBtn.setOnAction(e -> {
+            this.folderAction = FolderAction.CREATE_COPY;
             closeDialog();
         });
+
+    }
+
+    public FolderDecision getUserConflictDecision() {
+        useExistingHandler();
+        createCopyHandler();
+
+        this.showDialog();
+        return new FolderDecision(conflictingFolder, folderAction);
     }
 
     private void setIds() {
@@ -136,7 +147,6 @@ public class ConflictDialog extends BorderPane {
         bottomHBox.setId("bottom-hbox");
         useExistingBtn.setId("use-existing-btn");
         rightButtonsHBox.setId("right-buttons-hbox");
-        deleteBtn.setId("delete-btn");
         createCopyBtn.setId("create-copy-btn");
     }
 
@@ -147,7 +157,8 @@ public class ConflictDialog extends BorderPane {
         textVBox.getChildren().addAll(mainTextLabel, subTextLabel);
         centerHBox.getChildren().addAll(iconPane, textVBox);
 
-        rightButtonsHBox.getChildren().addAll(deleteBtn, createCopyBtn);
+        // here
+        rightButtonsHBox.getChildren().addAll(createCopyBtn);
 
         var spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);

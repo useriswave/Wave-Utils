@@ -34,7 +34,7 @@
     -fx-border-color: #e2e8f0;
 }
 
-#use-existing-btn, #delete-btn, #create-copy-btn {
+#use-existing-btn, #create-copy-btn {
     -fx-font-size: 13px;
     -fx-font-weight: bold;
     -fx-background-radius: 4;
@@ -46,14 +46,10 @@
     -fx-text-fill: white;
 }
 
-#delete-btn, #create-copy-btn {
+#create-copy-btn {
     -fx-background-color: white;
     -fx-border-color: #cbd5e1;
     -fx-border-radius: 4;
-}
-
-#delete-btn {
-    -fx-text-fill: #dc2626;
 }
 
 #create-copy-btn {

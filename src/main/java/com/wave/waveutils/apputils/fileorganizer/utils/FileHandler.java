@@ -12,9 +12,9 @@ public class FileHandler {
         this.selectedFolders = selectedFolders;
     }
 
-    public void deleteFolder(File folder) {
-        folder.delete();
-    }
+//    public void deleteFolder(File folder) {
+//        folder.delete();
+//    }
 
     public void useExistingFolder(File folder) {
         selectedFolders.add(folder);
@@ -76,7 +76,7 @@ public class FileHandler {
             System.out.printf("File '%s' has not been created.\n", copyFile.getName());
         }
 
-        selectedFolders.add(copyFile);
+//        selectedFolders.add(copyFile);
 
         return copyFile;
     }
