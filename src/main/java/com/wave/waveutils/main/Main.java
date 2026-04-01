@@ -1,7 +1,6 @@
 package com.wave.waveutils.main;
 
 import com.wave.waveutils.apputils.fileorganizer.layouts.RootPane;
-import com.wave.waveutils.apputils.fileorganizer.logic.FileOrganizer;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.text.Font;
@@ -18,7 +17,7 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-        new FileOrganizer().organizeFolder();
+//        new FileOrganizer().organizeFolder();
 
         final int WIDTH = 1200;
         final int HEIGHT = 800;
@@ -62,7 +61,8 @@ public class Main extends Application {
                 getClass().getResource("/com/wave/waveutils/styles/light-mode/icons/icons.css").toExternalForm(),
                 getClass().getResource("/com/wave/waveutils/styles/light-mode/result/result.css").toExternalForm(),
                 getClass().getResource("/com/wave/waveutils/styles/light-mode/cardstyles/result-cards/result-cards.css").toExternalForm(),
-                getClass().getResource("/com/wave/waveutils/styles/light-mode/cardstyles/extension-cards/extension-card.css").toExternalForm()
+                getClass().getResource("/com/wave/waveutils/styles/light-mode/cardstyles/extension-cards/extension-card.css").toExternalForm(),
+                getClass().getResource("/com/wave/waveutils/styles/dialogs/dialog-style.css").toExternalForm()
         );
     }
 

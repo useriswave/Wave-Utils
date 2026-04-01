@@ -26,13 +26,14 @@ public class Result extends VBox {
     private HBox resultCardsBox;
     private ExtensionsScroller extensionsScroller;
     private VBox operationInfoWrapper;
+    private ArrayList<FileInfo> fileInfoList;
 
     public Result() {}
 
-    public Result(String enteredDirectory, String statusText) {
+    public Result(String enteredDirectory, String statusText, ArrayList<FileInfo> fileInfoList) {
         this.enteredDirectory = enteredDirectory;
         this.statusText = "Complete";
-
+        this.fileInfoList = fileInfoList;
 
         initUI();
         registerElements();
@@ -43,17 +44,11 @@ public class Result extends VBox {
     private void initUI() {
 
         directory = new Label(enteredDirectory);
-
         folderOpenIcon = Icon.loadFolderOpenIcon();
-
         directoryBox = new HBox(folderOpenIcon, directory);
-
         separator = new Separator(Orientation.HORIZONTAL);
-
         status = new Label("Organizing " + statusText);
-
         statusInfo = new Label("Found x files across y file types");
-
         operationInfoWrapper = new VBox(status, statusInfo);
 
         ResultCard resultCard = new ResultCard("130",Icon.loadFilesIcon());
@@ -65,32 +60,7 @@ public class Result extends VBox {
         resultCardsBox.getChildren().addAll(resultCard, resultCard2, resultCard3);
         resultCardsBox.setVisible(true);
 
-        // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-        //          requires an ArrayList of FileInfo which will be generated in the Logic class
-
-        var infoList = new ArrayList<FileInfo>();
-        infoList.add(new FileInfo("EXE", "5"));
-        infoList.add(new FileInfo("EXE", "5"));
-        infoList.add(new FileInfo("EXE", "5"));
-        infoList.add(new FileInfo("EXE", "5"));
-        infoList.add(new FileInfo("EXE", "5"));
-        infoList.add(new FileInfo("EXE", "5"));
-        infoList.add(new FileInfo("EXE", "5"));
-        infoList.add(new FileInfo("EXE", "5"));
-        infoList.add(new FileInfo("EXE", "5"));        infoList.add(new FileInfo("EXE", "5"));
-        infoList.add(new FileInfo("EXE", "5"));
-        infoList.add(new FileInfo("EXE", "5"));
-        infoList.add(new FileInfo("EXE", "5"));
-        infoList.add(new FileInfo("EXE", "5"));
-        infoList.add(new FileInfo("EXE", "5"));
-        infoList.add(new FileInfo("EXE", "5"));
-        infoList.add(new FileInfo("EXE", "5"));
-        infoList.add(new FileInfo("EXE", "5"));
-
-
-        extensionsScroller = new ExtensionsScroller(infoList);
-
-        // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        extensionsScroller = new ExtensionsScroller(fileInfoList);
     }
 
     private void initStyles() {
