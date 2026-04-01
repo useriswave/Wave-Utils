@@ -1,6 +1,8 @@
 package com.wave.waveutils.apputils.fileorganizer.logic;
 
+import com.wave.waveutils.apputils.fileorganizer.enums.FolderAction;
 import com.wave.waveutils.apputils.fileorganizer.records.FileInfo;
+import com.wave.waveutils.apputils.fileorganizer.records.FolderDecision;
 import com.wave.waveutils.apputils.fileorganizer.utils.FileHandler;
 
 import java.io.File;
@@ -8,11 +10,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class FileOrganizer {
 
-    private String path;
+    private String pathName;
     private File directory;
     private ArrayList<File> fileList;
     private ArrayList<File> folderList;
@@ -25,17 +26,17 @@ public class FileOrganizer {
     private FileHandler fileHandler;
     private File[] allFiles;
     private ArrayList<String> uniqueExtensions;
-    private File directoryFolder;
+    private File foldersDirectory;
+    private File extensionlessFilesFolder;
     private File unknownFilesFolder;
     private String directoryFolderName;
     private String unknownFilesFolderName;
     private String filesWithNoExtensionFolderName;
     private int totalFoldersCreated;
-    Scanner sc = new Scanner(System.in);
 
-    public FileOrganizer(String path) {
-        this.path = path;
-        this.directory = new File(this.path);
+    public FileOrganizer(String pathName) {
+        this.pathName = pathName;
+        this.directory = new File(this.pathName);
         this.allFiles = directory.listFiles();
         this.selectedFolders = new ArrayList<>();
         this.fileHandler = new FileHandler(selectedFolders);
@@ -45,15 +46,26 @@ public class FileOrganizer {
         this.totalFoldersCreated = 0;
     }
 
-    public void organizeFolder() {
+    public void scanDirectory() {
         separateFilesAndFolders();
         sortValidAndComplicatedFiles();
         getAllExtensions();
         removeDuplicateExtensions();
-        createFolders();
-        moveFiles();
+        defineSelectedFolders();
+    }
 
-        printSelectedSourceFolders();
+    private void defineSelectedFolders() {
+        for(String extension : uniqueExtensions) {
+            selectedFolders.add(new File(pathName + "\\" + extension + " Folder"));
+        }
+
+        if(!folderList.isEmpty()) {
+            selectedFolders.add(this.foldersDirectory = new File(pathName + "\\" + "Folders"));
+        }
+
+        if(!fileWithNoExtension.isEmpty()) {
+            selectedFolders.add(this.extensionlessFilesFolder = new File(pathName + "\\" + "Extensionless Files"));
+        }
     }
 
     private void separateFilesAndFolders() {
@@ -70,35 +82,12 @@ public class FileOrganizer {
                 unknownFileList.add(file);
             }
         }
-        /*
-         ==================================================================================
-                                                DEBUG
-         ==================================================================================
-         */
-        System.out.println("----------FILES----------");
-        for (File f : fileList) {
-            System.out.println(f.toString());
-        }
-
-        System.out.println("----------FOLDERS----------");
-        for (File f : folderList) {
-            System.out.println(f.toString());
-        }
-
-        System.out.println("----------UNKNOWN FILES----------");
-        if (unknownFileList.isEmpty()) {
-            System.out.println("NONE");
-            return;
-        }
-        for (File f : unknownFileList) {
-            System.out.println(f.toString());
-        }
     }
 
     private void sortValidAndComplicatedFiles() {
-        validFiles = new ArrayList<>();
-        complicatedFiles = new ArrayList<>();
-        fileWithNoExtension = new ArrayList<>();
+        validFiles = new ArrayList<File>();
+        complicatedFiles = new ArrayList<File>();
+        fileWithNoExtension = new ArrayList<File>();
 
         for (File file : fileList) {
             String fileName = file.getName();
@@ -121,47 +110,21 @@ public class FileOrganizer {
                 complicatedFiles.add(file);
             }
         }
-                /*
-         ==================================================================================
-                                                DEBUG
-         ==================================================================================
-         */
-
-        System.out.println("Valid Files:");
-        for (File file : validFiles) {
-            System.out.println(file.toString());
-        }
-
-        System.out.println("Complicated Files:");
-        for (File file : complicatedFiles) {
-            System.out.println(file.toString());
-        }
-
-        System.out.println("Files With No Extension:");
-        for (File file : fileWithNoExtension) {
-            System.out.println(file.toString());
-        }
-
     }
 
     private void getAllExtensions() {
-        extensions = new ArrayList<>();
+        extensions = new ArrayList<String>();
 
         for (File file : validFiles) {
             String fileName = file.getName();
 
             extensions.add(fileName.substring(fileName.lastIndexOf('.')));
-
         }
 
         for (File file : complicatedFiles) {
             String fileName = file.getName();
 
             extensions.add(fileName.substring(fileName.lastIndexOf('.')));
-        }
-
-        for (String e : extensions) {
-            System.out.println("ALL EXTENSOINS ---> " + e);
         }
     }
 
@@ -175,161 +138,144 @@ public class FileOrganizer {
                 uniqueExtensions.add(extension);
             }
         }
-        /*
-         ==================================================================================
-                                                DEBUG
-         ==================================================================================
-         */
-        System.out.println("UNIQUE EXTENSIONS MANUALLY CHECKED: ");
-        for (String ue : uniqueExtensions) {
-            System.out.println(ue);
-        }
     }
 
-    private void createFolders() {
-        createExtensionFolders();
-        createExtensionlessFolders(directoryFolderName, folderList, directoryFolder);
-        createExtensionlessFolders(filesWithNoExtensionFolderName, fileWithNoExtension, unknownFilesFolder);
-        createExtensionlessFolders(unknownFilesFolderName, unknownFileList, unknownFilesFolder);
-    }
+    public ArrayList<File> findConflictingFolders() {
+        var conflictingFolders = new ArrayList<File>();
+        for (File selectedFolder : selectedFolders) {
 
-    private void moveFiles() {
-        moveFilesWithExtensions(validFiles);
-        moveFilesWithExtensions(complicatedFiles);
-        moveExtensionlessFiles(folderList, directoryFolderName);
-        moveExtensionlessFiles(unknownFileList, unknownFilesFolderName);
-        moveExtensionlessFiles(fileWithNoExtension, filesWithNoExtensionFolderName);
-    }
-
-    private void createExtensionFolders() {
-        for (String extension : uniqueExtensions) {
-            boolean addable = true;
-            File extensionFolder = new File(path + "\\" + extension + " Folder");
-            try {
-                if (!extensionFolder.mkdir()) {
-                    // there can be many causes, we can check if there is a duplicate folder that exists.
-                    if (extensionFolder.exists()) {
-
-                        System.out.printf("Folder '%s' already exists!\nWould you like to:\n1- Delete it\n2- Overwrite it\n3- Use it.\n4- Create copy\n\nInput: \n", extension);
-
-                        int input = sc.nextInt();
-                        sc.nextLine();
-
-                        switch (input) {
-                            case 1:
-                                fileHandler.deleteFolder(extensionFolder);
-                                addable = false;
-                                break;
-                            case 2:
-                                fileHandler.overWriteFolder(extensionFolder);
-                                break;
-                            case 3:
-                                fileHandler.useExistingFolder(extensionFolder);
-                                System.out.println("Will be used.");
-                                break;
-                            case 4:
-                                extensionFolder = fileHandler.createCopy(extensionFolder, directory);
-                                break;
-                            default:
-                                System.out.println("Invalid entry");
-                                addable = false;
-                                break;
-                        }
-
-
-
-                    } else {
-                        System.out.printf("Folder '%s' cannot be created.\n", extension);
-                        addable = false;
-                    }
-                }
-
-                if(addable) {
-                    selectedFolders.add(extensionFolder);
-                    System.out.printf("Folder '%s' has been created!\n", extension);
-                }
-
-
-            } catch (SecurityException e) {
-                System.out.println(e.getCause() + "\nPermission error, please check your directory's permission");
+            if (selectedFolder.exists()) {
+                conflictingFolders.add(selectedFolder);
+            } else {
+                System.out.println(selectedFolder.getName() + " does not create conflicts.");
             }
 
         }
-        printSelectedSourceFolders();
+        return conflictingFolders;
     }
 
-    private void moveFilesWithExtensions(ArrayList<File> listOfFiles) {
-        for(String extension : uniqueExtensions) {
-            for (File file : listOfFiles) {
-                String fileName = file.getName();
-                String fileExtension = fileName.substring(fileName.lastIndexOf('.'));
-
-                if (fileExtension.equalsIgnoreCase(extension)) {
-                    Path source = file.toPath();
-                    Path target = getProperSourceFolder(extension, fileName).toPath();
-
-                    try {
-                        Files.move(source, target);
-                    } catch (IOException e) {
-                        System.out.println(e.getMessage());
-                        e.printStackTrace();
-                    }
+    public void applyConflictDecisions(ArrayList<FolderDecision> conflictDecisions) {
+        for(FolderDecision decision : conflictDecisions) {
+            if(decision.action() == FolderAction.CREATE_COPY) {
+                if(decision.folder().equals(foldersDirectory)) {
+                    foldersDirectory = fileHandler.createCopy(decision.folder(), directory);
+                    createCopyHandler(decision.folder(), foldersDirectory);
                 }
+                else if(decision.folder().equals(extensionlessFilesFolder)) {
+                    extensionlessFilesFolder = fileHandler.createCopy(decision.folder(), directory);
+                    createCopyHandler(decision.folder(), extensionlessFilesFolder);
+                }
+                else {
+                    createCopyHandler(decision.folder(), fileHandler.createCopy(decision.folder(), directory));
+                }
+            }
 
+            if (decision.action() == FolderAction.USE_EXISTING) {
+                if (decision.folder().equals(foldersDirectory)) {
+                    removeFolderFromSource(foldersDirectory, folderList);
+                }
             }
         }
     }
 
-    private void moveExtensionlessFiles(ArrayList<File> listOfFiles, String targetFolderName) {
+    private void createCopyHandler(File folderToDelete, File copyFolder) {
+        removeFolderFromSource(folderToDelete, selectedFolders);
+        selectedFolders.add(copyFolder);
+    }
 
-        for(File folder : listOfFiles) {
-            String fileName = folder.getName();
+    private boolean removeFolderFromSource(File targetFolder, ArrayList<File> listOfFolders) {
+        for(File folder : listOfFolders) {
+            if(folder.equals(targetFolder)) {
+                listOfFolders.remove(folder);
+                return true;
+            }
+        }
+        return false;
+    }
 
-            Path source = folder.toPath();
-            Path target = getProperSourceFolder(targetFolderName, fileName).toPath();
+    public void createAllFolders() {
+        for(File folder : selectedFolders) {
+
+            if(!folder.mkdir()) {
+                System.out.println("Cannot create folder: " + folder.getName() + "!");
+            }
+            else {
+                System.out.println("Folder: " + folder.getName() + " created successfully!");
+            }
+        }
+    }
+
+    public void moveAllFiles() {
+        moveValidFiles();
+        moveComplicatedFiles();
+        moveExtensionlessFiles();
+        moveFoldersToFoldersDirectory();
+    }
+
+    private boolean moveFileToMatchingExtensionFolder(File file) {
+        for (File selectedFolder : selectedFolders) {
+            if (selectedFolder.getName().contains(getExtension(file.getName()))) {
+                Path source = file.toPath();
+                Path target = getProperSourceFolder(selectedFolder.getName(), file.getName()).toPath();
+
+                try {
+                    Files.move(source, target);
+                } catch (IOException e) {
+                    System.out.println(e.getMessage());
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void moveValidFiles() {
+        for(File file : validFiles) {
+            moveFileToMatchingExtensionFolder(file);
+        }
+    }
+
+    private void moveComplicatedFiles() {
+        for(File file : complicatedFiles) {
+            moveFileToMatchingExtensionFolder(file);
+        }
+    }
+
+    public void moveExtensionlessFiles() {
+        for(File file : fileWithNoExtension) {
+            Path source = file.toPath();
+            Path target = getProperSourceFolder(extensionlessFilesFolder.getName(), file.getName()).toPath();
 
             try {
                 Files.move(source, target);
-            }
-            catch(IOException e) {
+            } catch (IOException e) {
                 System.out.println(e.getMessage());
             }
         }
     }
 
-    private boolean createExtensionlessFolders(String folderName, ArrayList<File> listOfFiles, File folderToCreate) {
-        System.out.println(listOfFiles);
-        if(!listOfFiles.isEmpty()) {
-            folderToCreate = new File(path + "\\" + folderName);
-            if(folderToCreate.mkdir()) {
-                System.out.println("Folder " + folderName + " has been created.");
-                selectedFolders.add(folderToCreate);
-                return true;
+    public void moveFoldersToFoldersDirectory() {
+
+        for(File folder : folderList) {
+            Path source = folder.toPath();
+            Path target = getProperSourceFolder(foldersDirectory.getName(), folder.getName()).toPath();
+
+            try {
+                Files.move(source, target);
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
             }
         }
+    }
 
-        System.out.println("Folder " + folderName + " has not been created.");
-        return false;
-        }
-
-    private File getProperSourceFolder(String directoryName, String fileName) {
+    private File getProperSourceFolder(String folderName, String fileName) {
         for (File folder : selectedFolders) {
-            if (folder.getName().contains(directoryName)) {
+            if (folder.getName().equals(folderName)) {
                 return new File(folder.getAbsolutePath() + "\\" + fileName);
             }
         }
         return null;
     }
-
-    // temporary
-    public void printSelectedSourceFolders() {
-        int count = 0;
-        for (File folder : selectedFolders) {
-            System.out.println("Path " + (++count) + ": " + folder.getName());
-        }
-    }
-
-
 
     public int getTotalFiles() {
         return allFiles.length;
@@ -350,6 +296,7 @@ public class FileOrganizer {
     public ArrayList<FileInfo> getFileInfoList() {
         var fileInfoList = new ArrayList<FileInfo>();
         for(File folder : selectedFolders) {
+            System.out.println(selectedFolders);
             fileInfoList.add(new FileInfo(getExtension(folder.getName()), Integer.toString(folder.listFiles().length)));
         }
         return fileInfoList;
