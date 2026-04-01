@@ -1,0 +1,61 @@
+#conflict-dialog {
+    -fx-background-color: white;
+    -fx-border-color: #cbd5e1;
+    -fx-border-width: 1;
+}
+
+#top-hbox {
+    -fx-background-color: #f8fafc;
+}
+
+#title-label {
+    -fx-text-fill: #64748b;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+}
+
+#circle-icon {
+    -fx-fill: #60A5FA;
+}
+
+#main-text-label {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #0f172a;
+}
+
+#sub-text-label {
+    -fx-font-size: 13px;
+    -fx-text-fill: #475569;
+}
+
+#bottom-hbox {
+    -fx-background-color: #f8fafc;
+    -fx-border-color: #e2e8f0;
+}
+
+#use-existing-btn, #delete-btn, #create-copy-btn {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 4;
+    -fx-cursor: hand;
+}
+
+#use-existing-btn {
+    -fx-background-color: #2563eb;
+    -fx-text-fill: white;
+}
+
+#delete-btn, #create-copy-btn {
+    -fx-background-color: white;
+    -fx-border-color: #cbd5e1;
+    -fx-border-radius: 4;
+}
+
+#delete-btn {
+    -fx-text-fill: #dc2626;
+}
+
+#create-copy-btn {
+    -fx-text-fill: #334155;
+}
