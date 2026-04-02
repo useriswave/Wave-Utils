@@ -3,10 +3,8 @@ package com.wave.waveutils.main;
 import com.wave.waveutils.apputils.fileorganizer.layouts.RootPane;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
 
 public class Main extends Application {
 
