@@ -13,18 +13,17 @@ import java.util.ArrayList;
 
 public class FileOrganizer {
 
-    private String pathName;
-    private File directory;
+    private final String pathName;
+    private final File directory;
     private ArrayList<File> fileList;
     private ArrayList<File> folderList;
-    private ArrayList<File> unknownFileList;
     private ArrayList<File> validFiles;
     private ArrayList<File> fileWithNoExtension;
     private ArrayList<File> complicatedFiles;
     private ArrayList<String> extensions;
-    private ArrayList<File> selectedFolders;
-    private FileHandler fileHandler;
-    private File[] allFiles;
+    private final ArrayList<File> selectedFolders;
+    private final FileHandler fileHandler;
+    private final File[] allFiles;
     private ArrayList<String> uniqueExtensions;
     private File foldersDirectory;
     private File extensionlessFilesFolder;
@@ -71,7 +70,7 @@ public class FileOrganizer {
     private void separateFilesAndFolders() {
         fileList = new ArrayList<File>();
         folderList = new ArrayList<File>();
-        unknownFileList = new ArrayList<File>();
+        var unknownFileList = new ArrayList<File>();
 
         for (File file : allFiles) {
             if (file.isFile()) {
@@ -143,7 +142,6 @@ public class FileOrganizer {
     public ArrayList<File> findConflictingFolders() {
         var conflictingFolders = new ArrayList<File>();
         for (File selectedFolder : selectedFolders) {
-
             if (selectedFolder.exists()) {
                 conflictingFolders.add(selectedFolder);
             } else {
@@ -281,16 +279,36 @@ public class FileOrganizer {
         return allFiles.length;
     }
 
+    public int getTotalFileTypes() {
+        return selectedFolders.size();
+    }
+
     public int getTotalFoldersCreated() {
         return selectedFolders.size();
     }
 
-    public long getTotalFilesSizeGB() {
-        long bytes = 0;
-        for(File file : allFiles) {
-            bytes+= file.length();
+    public double getTotalFilesSizeGB() {
+        long totalBytes = getDirectorySizeBytes(directory);
+        return totalBytes / 1_000_000_000.0;
+    }
+
+    private long getDirectorySizeBytes(File folder) {
+        long total = 0;
+        File[] files = folder.listFiles();
+
+        if (files == null) {
+            return -1;
         }
-        return bytes / 1000000000;
+
+        for (File file : files) {
+            if (file.isFile()) {
+                total += file.length();
+            } else if (file.isDirectory()) {
+                total += getDirectorySizeBytes(file);
+            }
+        }
+
+        return total;
     }
 
     public ArrayList<FileInfo> getFileInfoList() {
@@ -300,12 +318,6 @@ public class FileOrganizer {
             fileInfoList.add(new FileInfo(getExtension(folder.getName()), Integer.toString(folder.listFiles().length)));
         }
         return fileInfoList;
-    }
-
-    private void printFileInfoList(ArrayList<FileInfo> fileInfoList) {
-        for(FileInfo info : fileInfoList) {
-            System.out.println("Folder:" + info.extensionText() + "\n" + info.fileAmountText() + " files");
-        }
     }
 
     private String getExtension(String fileName) {

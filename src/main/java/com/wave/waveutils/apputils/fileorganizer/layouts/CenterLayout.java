@@ -48,7 +48,7 @@ public class CenterLayout extends VBox {
     public CenterLayout(Stage stage) {
         this.stage = stage;
         initUI();
-        result = new Result();
+        result = new Result(fileOrganizer);
         result.setVisible(false);
         result.setManaged(false);
         setIds();
@@ -189,7 +189,7 @@ public class CenterLayout extends VBox {
             fileOrganizer.createAllFolders();
             fileOrganizer.moveAllFiles();
 
-            result = new Result(trimmedDirectory, "Complete", fileOrganizer.getFileInfoList());
+            result = new Result(trimmedDirectory, "Complete", fileOrganizer.getFileInfoList(), fileOrganizer);
             result.setVisible(true);
             result.setManaged(true);
             result.setAlignment(Pos.CENTER);
