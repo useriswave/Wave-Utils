@@ -17,8 +17,6 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-//        new FileOrganizer().organizeFolder();
-
         final int WIDTH = 1200;
         final int HEIGHT = 800;
 
@@ -26,10 +24,7 @@ public class Main extends Application {
 
         Scene scene = new Scene(root, WIDTH, HEIGHT);
 
-//        loadDarkMode(scene);
         loadLightMode(scene);
-
-        getFontInfo();  // for debugging
 
         stage.setScene(scene);
         stage.setMaximized(true);
@@ -64,18 +59,5 @@ public class Main extends Application {
                 getClass().getResource("/com/wave/waveutils/styles/light-mode/cardstyles/extension-cards/extension-card.css").toExternalForm(),
                 getClass().getResource("/com/wave/waveutils/styles/dialogs/dialog-style.css").toExternalForm()
         );
-    }
-
-    // TEMPORARY METHOD FOR DEBUGGING!!!!
-
-    private void getFontInfo() {
-        var fontList = new ArrayList<String>();
-        fontList.add("/com/wave/waveutils/fonts/SpaceGrotesk-Bold.ttf");
-        fontList.add("/com/wave/waveutils/fonts/Inter_18pt-SemiBold.ttf");
-        fontList.add("/com/wave/waveutils/fonts/JetBrainsMono-Regular.ttf");
-
-        for(int i = 0; i < fontList.size(); i++) {
-            System.out.println("Font Family: " + Font.loadFont(getClass().getResourceAsStream(fontList.get(i)), 20).getFamily());
-        }
     }
 }
