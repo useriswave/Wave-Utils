@@ -11,7 +11,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -56,12 +55,6 @@ public class CenterLayout extends VBox {
         registerElements();
     }
 
-    /*
-    =============================
-              UI STUFF
-    =============================
-     */
-
     private void initUI() {
         this.setPadding(new Insets(30));
         this.setAlignment(Pos.CENTER);
@@ -69,31 +62,20 @@ public class CenterLayout extends VBox {
 
         tagline = new Label("Organize your files\n");
         instantlyLabel = new Label("instantly");
-
         textBox = new VBox(tagline, instantlyLabel);
-
         description = new Label("Choose a file path and have your files get automatically sorted into organized files by their extensions");
         directoryField = new TextField();
-
         folderOpenIcon = Icon.loadFolderOpenIcon();
-
-        // **************************************************************************************
-
         textFieldBox = new StackPane(directoryField, folderOpenIcon);
-
         addDirectoryButton = Icon.loadFolderPlusIcon();
         textFieldWrapper = new HBox(textFieldBox, addDirectoryButton);
-
-        // **************************************************************************************
 
         scanButton = new Button("Scan");
         System.out.println("ENTERED DIRECTORY: " + getEnteredDirectory());
 
-
         scanButtonEventHandler();
         addDirectoryEventHandler();
         onFieldClick();
-
 
         heroBox = new VBox(textBox, description);
 
@@ -142,12 +124,6 @@ public class CenterLayout extends VBox {
         scannerBox.setSpacing(15);
     }
 
-    /*
-    =================================
-            EVENT HANDLERS
-    =================================
-     */
-
     private void scanButtonEventHandler() {
         scanButton.setOnAction(e -> {
             // if valid directory is entered:
@@ -161,13 +137,24 @@ public class CenterLayout extends VBox {
                 return;
             }
 
+            File[] files = folder.listFiles();
+            if (files == null) {
+                new ErrorDialog("Directory Error", "Cannot read this directory.", "Directory Error").showAndWait();
+                return;
+            }
+
+            if (files.length == 0) {
+                new ErrorDialog("Empty Directory", "The entered directory is empty.\nPlease choose a valid directory!", "Directory Error").showAndWait();
+                return;
+            }
+
             result.setVisible(false);
             result.setManaged(false);
+
 
             if(!folder.exists() || !folder.isDirectory()) {
                 new ErrorDialog("Invalid Directory", getEnteredDirectory() + " is not valid.\nPlease enter a valid directory.", "Directory Error")
                         .showAndWait();
-
                 return;
             }
 
@@ -226,14 +213,8 @@ public class CenterLayout extends VBox {
             System.out.println("FIELD EVENT TRIGGERED");
             fieldClicked = true;
         });
-        // might need to make a more precise check
+        // need to fix mouse drag issue
     }
-
-    /*
-    =================================
-              OTHER STUFF
-    =================================
-     */
 
     private void setIds() {
         tagline.setId("tagline");
