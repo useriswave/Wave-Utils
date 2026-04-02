@@ -55,11 +55,12 @@ public class Result extends VBox {
         statusInfo = new Label("Found " + fileOrganizer.getTotalFiles() + " across " + fileOrganizer.getTotalFileTypes());
         operationInfoWrapper = new VBox(status, statusInfo);
 
-        String totalFileSize = Double.toString(fileOrganizer.getTotalFilesSizeGB());
+        double totalFileSize = fileOrganizer.getTotalFilesSizeGB();
+        String formattedSize = String.format("%.2f", totalFileSize);
 
         var resultCard = new ResultCard(Integer.toString(fileOrganizer.getTotalFiles()), ResultCardType.TOTAL_FILES);
         var resultCard2 = new ResultCard(Integer.toString(fileOrganizer.getTotalFoldersCreated()), ResultCardType.FOLDERS_CREATED);
-        var resultCard3 = new ResultCard(totalFileSize.substring(0, (totalFileSize.indexOf('.'))+3), ResultCardType.TOTAL_FILE_SIZES);
+        var resultCard3 = new ResultCard(formattedSize, ResultCardType.TOTAL_FILE_SIZES);
 
         resultCardsBox = new HBox();
 
@@ -70,7 +71,6 @@ public class Result extends VBox {
     }
 
     private void initStyles() {
-//        this.setSpacing(10);
         this.setSpacing(50);
         this.setAlignment(Pos.CENTER_LEFT);
         this.setPrefWidth(900);

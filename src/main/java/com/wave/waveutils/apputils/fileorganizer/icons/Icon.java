@@ -13,7 +13,7 @@ public class Icon {
      ******************************************************************************************************************************************
 
 
-                                                    THESE ICONS ARE WRITTEN BY AI
+                                                    THESE SVGS ARE WRITTEN BY AI
                                                     ICONS ARE LOADED FROM: lucide.dev
                                                     I DO NOT TAKE CREDIT FOR THIS
 
