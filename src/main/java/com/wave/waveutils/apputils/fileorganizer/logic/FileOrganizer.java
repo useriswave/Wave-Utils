@@ -27,7 +27,6 @@ public class FileOrganizer {
     private ArrayList<String> uniqueExtensions;
     private File foldersDirectory;
     private File extensionlessFilesFolder;
-    private File unknownFilesFolder;
     private String directoryFolderName;
     private String unknownFilesFolderName;
     private String filesWithNoExtensionFolderName;
@@ -55,7 +54,7 @@ public class FileOrganizer {
 
     private void defineSelectedFolders() {
         for(String extension : uniqueExtensions) {
-            selectedFolders.add(new File(pathName + "\\" + extension + " Folder"));
+            selectedFolders.add(new File(pathName + "\\" + extension.substring(1) + " Folder"));
         }
 
         if(!folderList.isEmpty()) {
@@ -169,9 +168,7 @@ public class FileOrganizer {
             }
 
             if (decision.action() == FolderAction.USE_EXISTING) {
-                if (decision.folder().equals(foldersDirectory)) {
-                    removeFolderFromSource(foldersDirectory, folderList);
-                }
+                removeFolderFromSource(decision.folder(), folderList);
             }
         }
     }
@@ -192,15 +189,19 @@ public class FileOrganizer {
     }
 
     public void createAllFolders() {
-        for(File folder : selectedFolders) {
+        var successfullyCreatedFolders = new ArrayList<File>();
 
-            if(!folder.mkdir()) {
-                System.out.println("Cannot create folder: " + folder.getName() + "!");
-            }
-            else {
-                System.out.println("Folder: " + folder.getName() + " created successfully!");
+        for (File folder : selectedFolders) {
+            if (folder.exists() || folder.mkdir()) {
+                System.out.println("Folder: " + folder.getName() + " created successfully");
+                successfullyCreatedFolders.add(folder);
+            } else {
+                System.out.println("Cannot create folder: " + folder.getName());
             }
         }
+
+        selectedFolders.clear();
+        selectedFolders.addAll(successfullyCreatedFolders);
     }
 
     public void moveAllFiles() {
@@ -211,8 +212,14 @@ public class FileOrganizer {
     }
 
     private void moveFileToMatchingExtensionFolder(File file) {
+        String extension = getExtension(file.getName());
+
+        if (extension.startsWith(".")) {
+            extension = extension.substring(1);
+        }
+
         for (File selectedFolder : selectedFolders) {
-            if (selectedFolder.getName().contains(getExtension(file.getName()))) {
+            if (selectedFolder.getName().contains(extension)) {
                 Path source = file.toPath();
                 Path target = getProperSourceFolder(selectedFolder.getName(), file.getName()).toPath();
 
@@ -312,9 +319,16 @@ public class FileOrganizer {
 
     public ArrayList<FileInfo> getFileInfoList() {
         var fileInfoList = new ArrayList<FileInfo>();
-        for(File folder : selectedFolders) {
-            System.out.println(selectedFolders);
-            fileInfoList.add(new FileInfo(getExtension(folder.getName()), Integer.toString(folder.listFiles().length)));
+
+        for (File folder : selectedFolders) {
+            File[] files = folder.listFiles();
+            int fileCount = 0;
+
+            if (files != null) {
+                fileCount = files.length;
+            }
+
+            fileInfoList.add(new FileInfo(getExtension(folder.getName()), Integer.toString(fileCount)));
         }
         return fileInfoList;
     }
