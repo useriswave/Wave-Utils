@@ -210,7 +210,7 @@ public class FileOrganizer {
         moveFoldersToFoldersDirectory();
     }
 
-    private boolean moveFileToMatchingExtensionFolder(File file) {
+    private void moveFileToMatchingExtensionFolder(File file) {
         for (File selectedFolder : selectedFolders) {
             if (selectedFolder.getName().contains(getExtension(file.getName()))) {
                 Path source = file.toPath();
@@ -221,10 +221,9 @@ public class FileOrganizer {
                 } catch (IOException e) {
                     System.out.println(e.getMessage());
                 }
-                return true;
+                return;
             }
         }
-        return false;
     }
 
     private void moveValidFiles() {
