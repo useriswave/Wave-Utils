@@ -32,20 +32,6 @@ public class Main extends Application {
         stage.show();
     }
 
-    private void loadDarkMode(Scene scene) {
-        scene.getStylesheets().addAll(
-                getClass().getResource("/com/wave/waveutils/styles/dark-mode/mainpage/dark-mode.css").toExternalForm(),
-                getClass().getResource("/com/wave/waveutils/styles/dark-mode/cardstyles/hero-cards/scans-directory-style.css").toExternalForm(),
-                getClass().getResource("/com/wave/waveutils/styles/dark-mode/cardstyles/hero-cards/organizes-files-style.css").toExternalForm(),
-                getClass().getResource("/com/wave/waveutils/styles/dark-mode/cardstyles/hero-cards/creates-folders-style.css").toExternalForm(),
-                getClass().getResource("/com/wave/waveutils/styles/dark-mode/cardstyles/hero-cards/all-cards.css").toExternalForm(),
-                getClass().getResource("/com/wave/waveutils/styles/dark-mode/icons/icons.css").toExternalForm(),
-                getClass().getResource("/com/wave/waveutils/styles/dark-mode/result/result.css").toExternalForm(),
-                getClass().getResource("/com/wave/waveutils/styles/dark-mode/cardstyles/result-cards/result-cards.css").toExternalForm(),
-                getClass().getResource("/com/wave/waveutils/styles/dark-mode/cardstyles/extension-cards/extension-card.css").toExternalForm()
-        );
-    }
-
     private void loadLightMode(Scene scene) {
         scene.getStylesheets().addAll(
                 getClass().getResource("/com/wave/waveutils/styles/light-mode/mainpage/light-mode.css").toExternalForm(),
