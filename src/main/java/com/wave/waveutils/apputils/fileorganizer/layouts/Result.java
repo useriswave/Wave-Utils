@@ -1,7 +1,9 @@
 package com.wave.waveutils.apputils.fileorganizer.layouts;
 
 import com.wave.waveutils.apputils.fileorganizer.cards.ResultCard;
+import com.wave.waveutils.apputils.fileorganizer.enums.ResultCardType;
 import com.wave.waveutils.apputils.fileorganizer.icons.Icon;
+import com.wave.waveutils.apputils.fileorganizer.logic.FileOrganizer;
 import com.wave.waveutils.apputils.fileorganizer.records.FileInfo;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
@@ -27,13 +29,15 @@ public class Result extends VBox {
     private ExtensionsScroller extensionsScroller;
     private VBox operationInfoWrapper;
     private ArrayList<FileInfo> fileInfoList;
+    private FileOrganizer fileOrganizer;
 
-    public Result() {}
+    public Result(FileOrganizer fileOrganizer) {}
 
-    public Result(String enteredDirectory, String statusText, ArrayList<FileInfo> fileInfoList) {
+    public Result(String enteredDirectory, String statusText, ArrayList<FileInfo> fileInfoList, FileOrganizer fileOrganizer) {
         this.enteredDirectory = enteredDirectory;
         this.statusText = "Complete";
         this.fileInfoList = fileInfoList;
+        this.fileOrganizer = fileOrganizer;
 
         initUI();
         registerElements();
@@ -48,12 +52,14 @@ public class Result extends VBox {
         directoryBox = new HBox(folderOpenIcon, directory);
         separator = new Separator(Orientation.HORIZONTAL);
         status = new Label("Organizing " + statusText);
-        statusInfo = new Label("Found x files across y file types");
+        statusInfo = new Label("Found " + fileOrganizer.getTotalFiles() + " across " + fileOrganizer.getTotalFileTypes());
         operationInfoWrapper = new VBox(status, statusInfo);
 
-        ResultCard resultCard = new ResultCard("130",Icon.loadFilesIcon());
-        ResultCard resultCard2 = new ResultCard("8",Icon.loadFilesIcon());
-        ResultCard resultCard3 = new ResultCard("8",Icon.loadFilesIcon());
+        String totalFileSize = Double.toString(fileOrganizer.getTotalFilesSizeGB());
+
+        var resultCard = new ResultCard(Integer.toString(fileOrganizer.getTotalFiles()), ResultCardType.TOTAL_FILES);
+        var resultCard2 = new ResultCard(Integer.toString(fileOrganizer.getTotalFoldersCreated()), ResultCardType.FOLDERS_CREATED);
+        var resultCard3 = new ResultCard(totalFileSize.substring(0, (totalFileSize.indexOf('.'))+3), ResultCardType.TOTAL_FILE_SIZES);
 
         resultCardsBox = new HBox();
 
