@@ -48,7 +48,6 @@ public class ExtensionsScroller extends VBox {
             elementBox.getChildren().add(scrollerBox);
             count++;
         }
-
     }
 
     private void initStyles() {

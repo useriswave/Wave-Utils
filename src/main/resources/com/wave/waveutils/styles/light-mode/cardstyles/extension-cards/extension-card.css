@@ -23,16 +23,15 @@
     -fx-font-size: 15px;
 }
 
-#openfolder-button {
+#complete {
     -fx-text-fill: white;
-    -fx-background-color: linear-gradient(from 0% 100% to 100% 0%,#007BFF 0%,#00BFFF 100%);
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, rgba(91, 184, 26, 1) 0%, rgba(124, 255, 31, 1) 100%);
     -fx-font-family: "Inter 18pt SemiBold";
 
     -fx-border-width: 2px;
     -fx-border-color: transparent;
     -fx-border-radius: 10px;
     -fx-background-radius: 10px;
-    -fx-cursor: hand;
 }
 
 #extension-card-wrapper {

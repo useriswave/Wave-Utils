@@ -16,9 +16,8 @@ public class ExtensionCard extends VBox {
     private final String extensionText;
     private final String fileAmountText;
     private Group folderIcon;
-
     private GridPane innerCardGrid;
-    private Button openFolderButton;
+    private Button complete;
 
 
     public ExtensionCard(FileInfo fileInfo) {
@@ -36,16 +35,14 @@ public class ExtensionCard extends VBox {
         fileAmountLabel = new Label(fileAmountText + " Files");
         folderIcon = Icon.loadFolderIcon();
 
-        openFolderButton = new Button("Open Folder");
+        complete = new Button("Complete");
 
         innerCardGrid = new GridPane();
         innerCardGrid.add(folderIcon, 0, 0);
         innerCardGrid.add(extensionLabel, 1, 0);
         innerCardGrid.add(fileAmountLabel, 2, 0);
-        innerCardGrid.add(openFolderButton, 3, 0);
+        innerCardGrid.add(complete, 3, 0);
 
-
-        viewFolderButtonEventHandler();
     }
 
     private void initStyles() {
@@ -59,18 +56,12 @@ public class ExtensionCard extends VBox {
         innerCardGrid.setPadding(new Insets(15, 100, 15, 30));
     }
 
-    private void viewFolderButtonEventHandler() {
-        openFolderButton.setOnAction(e -> {
-            System.out.println("View Folder Button Clicked");
-        });
-    }
-
     private void setIds() {
 
         extensionLabel.setId("extension-card-label");
         fileAmountLabel.setId("fileamount-extension-card-label");
         folderIcon.setId("foldericon-extension-card");
-        openFolderButton.setId("openfolder-button");
+        complete.setId("complete");
         this.setId("extension-card-wrapper");
 
     }
