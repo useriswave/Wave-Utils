@@ -25,7 +25,7 @@
 
 #complete {
     -fx-text-fill: white;
-    -fx-background-color: linear-gradient(from 0% 20% to 100% 80%, rgba(124, 255, 31, 1) 18%, rgba(91, 184, 26, 1) 100%);
+    -fx-background-color: linear-gradient(from 0% 20% to 100% 80%, #7CFF1F 11%, #72E322 100%);
     -fx-font-family: "Inter 18pt SemiBold";
 
     -fx-border-width: 2px;
