@@ -7,7 +7,8 @@ import javafx.stage.Stage;
 public class RootPane extends BorderPane {
 
     private Stage stage;
-    private CenterLayout center;
+    private CenterLayout centerLayout;
+    private TopLayout topLayout;
     private ScrollPane scrollPane;
 
     public RootPane(Stage stage) {
@@ -18,8 +19,9 @@ public class RootPane extends BorderPane {
     }
 
     private void initChildren() {
-        center = new CenterLayout(stage);
-        scrollPane = new ScrollPane(center);
+        centerLayout = new CenterLayout(stage);
+        topLayout = new TopLayout();
+        scrollPane = new ScrollPane(centerLayout);
     }
 
     private void initStyles() {
@@ -29,6 +31,7 @@ public class RootPane extends BorderPane {
     }
 
     private void registerChildren() {
+        this.setTop(topLayout);
         this.setCenter(scrollPane);
     }
 

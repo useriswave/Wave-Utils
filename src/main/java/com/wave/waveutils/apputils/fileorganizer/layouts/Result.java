@@ -52,7 +52,7 @@ public class Result extends VBox {
         directoryBox = new HBox(folderOpenIcon, directory);
         separator = new Separator(Orientation.HORIZONTAL);
         status = new Label("Organizing " + statusText);
-        statusInfo = new Label("Found " + fileOrganizer.getTotalFiles() + " across " + fileOrganizer.getTotalFileTypes());
+        statusInfo = new Label("Found " + fileOrganizer.getTotalFiles() + " files across " + fileOrganizer.getTotalFileTypes() + " file types");
         operationInfoWrapper = new VBox(status, statusInfo);
 
         double totalFileSize = fileOrganizer.getTotalFilesSizeGB();
