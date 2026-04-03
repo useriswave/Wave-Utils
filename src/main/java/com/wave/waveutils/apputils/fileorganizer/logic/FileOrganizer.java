@@ -27,8 +27,7 @@ public class FileOrganizer {
     private ArrayList<String> uniqueExtensions;
     private File foldersDirectory;
     private File extensionlessFilesFolder;
-    private String directoryFolderName;
-    private String unknownFilesFolderName;
+    private final String directoryFolderName;
     private String filesWithNoExtensionFolderName;
     private int totalFoldersCreated;
 
@@ -39,7 +38,6 @@ public class FileOrganizer {
         this.selectedFolders = new ArrayList<>();
         this.fileHandler = new FileHandler(selectedFolders);
         this.directoryFolderName = "Folders";
-        this.unknownFilesFolderName = "Unknown Files";
         this.filesWithNoExtensionFolderName = "Extensionless Files";
         this.totalFoldersCreated = 0;
     }
