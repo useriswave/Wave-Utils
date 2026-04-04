@@ -6,7 +6,7 @@ import javafx.stage.Stage;
 
 public class RootPane extends BorderPane {
 
-    private Stage stage;
+    private final Stage stage;
     private CenterLayout centerLayout;
     private TopLayout topLayout;
     private ScrollPane scrollPane;

@@ -4,9 +4,9 @@ import javafx.scene.control.Alert;
 
 public class ErrorDialog extends Alert{
 
-    private String headerText;
-    private String contentText;
-    private String title;
+    private final String headerText;
+    private final String contentText;
+    private final String title;
 
     public ErrorDialog(String headerText, String contentText, String title) {
         super(AlertType.ERROR);

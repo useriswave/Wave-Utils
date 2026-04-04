@@ -38,7 +38,6 @@ public class ExtensionsScroller extends VBox {
         filesFoundLabel = new Label("FILES FOUND");
         openFolderLabel = new Label("OPEN FOLDER");
 
-        int count = 1;
         for(FileInfo fileInfo : fileInfoList) {
             scrollerBox = new HBox();
             scrollerBox.setAlignment(Pos.CENTER_LEFT);
@@ -46,7 +45,6 @@ public class ExtensionsScroller extends VBox {
             scrollerBox.getChildren().addAll(new ExtensionCard(fileInfo));
 
             elementBox.getChildren().add(scrollerBox);
-            count++;
         }
     }
 

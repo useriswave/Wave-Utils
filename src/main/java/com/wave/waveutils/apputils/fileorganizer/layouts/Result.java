@@ -31,7 +31,7 @@ public class Result extends VBox {
     private ArrayList<FileInfo> fileInfoList;
     private FileOrganizer fileOrganizer;
 
-    public Result(FileOrganizer fileOrganizer) {}
+    public Result() {}
 
     public Result(String enteredDirectory, String statusText, ArrayList<FileInfo> fileInfoList, FileOrganizer fileOrganizer) {
         this.enteredDirectory = enteredDirectory;

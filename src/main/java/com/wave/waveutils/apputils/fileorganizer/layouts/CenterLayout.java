@@ -47,7 +47,7 @@ public class CenterLayout extends VBox {
     public CenterLayout(Stage stage) {
         this.stage = stage;
         initUI();
-        result = new Result(fileOrganizer);
+        result = new Result();
         result.setVisible(false);
         result.setManaged(false);
         setIds();

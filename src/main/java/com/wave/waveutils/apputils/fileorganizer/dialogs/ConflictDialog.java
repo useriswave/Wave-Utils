@@ -24,7 +24,7 @@ public class ConflictDialog extends BorderPane {
 
     private final int WIDTH;
     private final int HEIGHT;
-    private File conflictingFolder;
+    private final File conflictingFolder;
     private Stage stage;
     private HBox centerHBox;
     private StackPane iconPane;
