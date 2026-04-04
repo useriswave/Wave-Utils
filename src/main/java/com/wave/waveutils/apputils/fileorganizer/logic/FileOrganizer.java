@@ -170,14 +170,12 @@ public class FileOrganizer {
         selectedFolders.add(copyFolder);
     }
 
-    private boolean removeFolderFromSource(File targetFolder, ArrayList<File> listOfFolders) {
-        for(File folder : listOfFolders) {
-            if(folder.equals(targetFolder)) {
-                listOfFolders.remove(folder);
-                return true;
+    private void removeFolderFromSource(File targetFolder, ArrayList<File> listOfFolders) {
+        for(int i = 0; i < listOfFolders.size(); i++) {
+            if(listOfFolders.get(i).equals(targetFolder)) {
+                listOfFolders.remove(listOfFolders.get(i));
             }
         }
-        return false;
     }
 
     public void createAllFolders() {
