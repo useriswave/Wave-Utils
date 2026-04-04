@@ -37,7 +37,7 @@ public class ConflictDialog extends BorderPane {
     private HBox rightButtonsHBox;
     private Button createCopyBtn;
     private FolderAction folderAction;
-    private Window ownerWin;
+    private final Window ownerWin;
 
     public ConflictDialog(File conflictingFolder, Window ownerWin) {
         this.WIDTH = 500;

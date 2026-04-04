@@ -6,33 +6,10 @@ import java.util.ArrayList;
 public class FileHandler {
 
     private final String COPY_IDENTIFIER = "_Copy";
-    private ArrayList<File> selectedFolders;
+    private final ArrayList<File> selectedFolders;
 
     public FileHandler(ArrayList<File> selectedFolders) {
         this.selectedFolders = selectedFolders;
-    }
-
-//    public void deleteFolder(File folder) {
-//        folder.delete();
-//    }
-
-    public void useExistingFolder(File folder) {
-        selectedFolders.add(folder);
-    }
-
-    // a better overwrite feature will be implemented later. I will prioritize finishing the project.
-
-    public void overWriteFolder(File folder) {
-
-        File[] files = folder.listFiles();
-
-        for(File file : files) {
-            file.delete();
-        }
-
-        folder.delete();
-        folder.mkdir();
-        selectedFolders.add(folder);
     }
 
     public File createCopy(File folder, File directory) {
@@ -75,8 +52,6 @@ public class FileHandler {
         if(!copyFile.mkdir()) {
             System.out.printf("File '%s' has not been created.\n", copyFile.getName());
         }
-
-//        selectedFolders.add(copyFile);
 
         return copyFile;
     }

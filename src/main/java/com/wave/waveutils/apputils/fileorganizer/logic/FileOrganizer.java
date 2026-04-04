@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class FileOrganizer {
 
@@ -124,16 +125,9 @@ public class FileOrganizer {
         }
     }
 
-    // this is a slower solution I should use a hashset
     private void removeDuplicateExtensions() {
-
-        uniqueExtensions = new ArrayList<>();
-
-        for (String extension : extensions) {
-            if (!uniqueExtensions.contains(extension)) {
-                uniqueExtensions.add(extension);
-            }
-        }
+        var temp = new HashSet<String>(extensions);
+        uniqueExtensions = new ArrayList<>(temp);
     }
 
     public ArrayList<File> findConflictingFolders() {
