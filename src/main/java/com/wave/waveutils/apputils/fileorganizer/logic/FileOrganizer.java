@@ -68,15 +68,15 @@ public class FileOrganizer {
     private void separateFilesAndFolders() {
         fileList = new ArrayList<File>();
         folderList = new ArrayList<File>();
-        var unknownFileList = new ArrayList<File>();
 
         for (File file : allFiles) {
             if (file.isFile()) {
                 fileList.add(file);
             } else if (file.isDirectory()) {
                 folderList.add(file);
-            } else {
-                unknownFileList.add(file);
+            }
+            else {
+                throw new IllegalStateException("Unexpected file entry: " + file.getPath());
             }
         }
     }
