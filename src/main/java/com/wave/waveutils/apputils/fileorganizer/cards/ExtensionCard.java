@@ -2,12 +2,17 @@ package com.wave.waveutils.apputils.fileorganizer.cards;
 
 import com.wave.waveutils.apputils.fileorganizer.records.FileInfo;
 import com.wave.waveutils.apputils.fileorganizer.icons.Icon;
+import com.wave.waveutils.apputils.fileorganizer.utils.StringUtils;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 
 public class ExtensionCard extends VBox {
 
@@ -17,14 +22,16 @@ public class ExtensionCard extends VBox {
     private final String fileAmountText;
     private Group folderIcon;
     private GridPane innerCardGrid;
-    private Button complete;
+    private Button openButton;
+    private final FileInfo fileInfo;
 
 
     public ExtensionCard(FileInfo fileInfo) {
-        extensionText = fileInfo.extensionText();
+        this.fileInfo = fileInfo;
+        extensionText = StringUtils.getExtension(fileInfo.file().getName());
         fileAmountText = fileInfo.fileAmountText();
-
         initUI();
+        openButtonEventHandler();
         initStyles();
         setIds();
         registerElements();
@@ -35,35 +42,42 @@ public class ExtensionCard extends VBox {
         fileAmountLabel = new Label(fileAmountText + " Files");
         folderIcon = Icon.loadFolderIcon();
 
-        complete = new Button("Complete");
+        openButton = new Button("Open Folder");
 
         innerCardGrid = new GridPane();
         innerCardGrid.add(folderIcon, 0, 0);
         innerCardGrid.add(extensionLabel, 1, 0);
         innerCardGrid.add(fileAmountLabel, 2, 0);
-        innerCardGrid.add(complete, 3, 0);
+        innerCardGrid.add(openButton, 3, 0);
 
     }
 
-    private void initStyles() {
+    public void openButtonEventHandler() {
+        openButton.setOnAction(event -> {
+            var folder = new File(fileInfo.file().getAbsolutePath());
+            try {
+                Desktop.getDesktop().open(folder);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
 
+    private void initStyles() {
         this.setSpacing(10);
 
         extensionLabel.setPrefWidth(200);
         fileAmountLabel.setPrefWidth(200);
-
         innerCardGrid.setHgap(75);
         innerCardGrid.setPadding(new Insets(15, 100, 15, 30));
     }
 
     private void setIds() {
-
         extensionLabel.setId("extension-card-label");
         fileAmountLabel.setId("fileamount-extension-card-label");
         folderIcon.setId("foldericon-extension-card");
-        complete.setId("complete");
+        openButton.setId("openbtn");
         this.setId("extension-card-wrapper");
-
     }
 
     private void registerElements() {

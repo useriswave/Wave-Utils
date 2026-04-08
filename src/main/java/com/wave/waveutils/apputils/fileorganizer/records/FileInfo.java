@@ -1,3 +1,5 @@
 package com.wave.waveutils.apputils.fileorganizer.records;
 
-public record FileInfo(String extensionText, String fileAmountText) {}
+import java.io.File;
+
+public record FileInfo(File file, String fileAmountText) {}

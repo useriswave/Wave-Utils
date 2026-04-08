@@ -23,13 +23,14 @@
     -fx-font-size: 15px;
 }
 
-#complete {
+#openbtn {
     -fx-text-fill: white;
-    -fx-background-color: linear-gradient(from 0% 20% to 100% 80%, #7CFF1F 11%, #72E322 100%);
+    -fx-text-fill: linear-gradient(from 0% 100% to 100% 0%,#007BFF 0%,#00BFFF 100%);
     -fx-font-family: "Inter 18pt SemiBold";
 
     -fx-border-width: 2px;
-    -fx-border-color: transparent;
+    -fx-background-fill: white;
+    -fx-border-color: linear-gradient(from 0% 100% to 100% 0%,#007BFF 0%,#00BFFF 100%);
     -fx-border-radius: 10px;
     -fx-background-radius: 10px;
 }

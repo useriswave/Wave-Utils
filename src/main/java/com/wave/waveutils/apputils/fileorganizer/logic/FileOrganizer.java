@@ -4,6 +4,7 @@ import com.wave.waveutils.apputils.fileorganizer.enums.FolderAction;
 import com.wave.waveutils.apputils.fileorganizer.records.FileInfo;
 import com.wave.waveutils.apputils.fileorganizer.records.FolderDecision;
 import com.wave.waveutils.apputils.fileorganizer.utils.FileHandler;
+import com.wave.waveutils.apputils.fileorganizer.utils.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -202,7 +203,7 @@ public class FileOrganizer {
     }
 
     private void moveFileToMatchingExtensionFolder(File file) {
-        String extension = getExtension(file.getName());
+        String extension = StringUtils.getExtension(file.getName());
 
         if (extension.startsWith(".")) {
             extension = extension.substring(1);
@@ -318,15 +319,8 @@ public class FileOrganizer {
                 fileCount = files.length;
             }
 
-            fileInfoList.add(new FileInfo(getExtension(folder.getName()), Integer.toString(fileCount)));
+            fileInfoList.add(new FileInfo(folder, Integer.toString(fileCount)));
         }
         return fileInfoList;
-    }
-
-    private String getExtension(String fileName) {
-        if(fileName.contains(".")) {
-            return fileName.substring(fileName.lastIndexOf('.'));
-        }
-        return fileName;
     }
 }
