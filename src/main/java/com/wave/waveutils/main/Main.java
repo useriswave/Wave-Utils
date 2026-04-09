@@ -5,7 +5,6 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-
 public class Main extends Application {
 
     public static void main(String[] args) {
@@ -14,16 +13,13 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-
         final int WIDTH = 1200;
         final int HEIGHT = 800;
 
         var root = new RootPane(stage);
 
         Scene scene = new Scene(root, WIDTH, HEIGHT);
-
         loadLightMode(scene);
-
         stage.setScene(scene);
         stage.setMaximized(true);
         stage.setTitle("Wave Utils");
