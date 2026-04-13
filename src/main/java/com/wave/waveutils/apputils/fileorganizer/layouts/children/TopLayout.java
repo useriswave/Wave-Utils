@@ -1,7 +1,10 @@
 package com.wave.waveutils.apputils.fileorganizer.layouts.children;
 
+import com.wave.waveutils.apputils.fileorganizer.constants.Constants;
+import com.wave.waveutils.apputils.fileorganizer.layouts.base.BaseLayout;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
@@ -13,8 +16,8 @@ import javafx.scene.layout.VBox;
 import java.awt.*;
 import java.net.URI;
 
-public class TopLayout extends StackPane {
-
+public class TopLayout extends BaseLayout {
+    private StackPane stackPane;
     private VBox layout;
     private BorderPane bar;
     private Label name;
@@ -25,15 +28,17 @@ public class TopLayout extends StackPane {
     private HBox rightButtons;
 
     public TopLayout() {
-        initUI();
-        initStyles();
-        buttonEvents();
-        setIds();
-        registerElements();
+        build();
     }
 
-    private void initUI() {
-        name = new Label("@useriswave");
+    @Override
+    protected void initRoot() {
+         this.stackPane = new StackPane();
+    }
+
+    @Override
+    protected void initUI() {
+        name = new Label(Constants.CREATOR);
         sep = new Separator();
         github = new Button("GitHub");
         discord = new Button("Discord");
@@ -43,7 +48,8 @@ public class TopLayout extends StackPane {
         rightButtons = new HBox(10, discord, github);
     }
 
-    public void initStyles() {
+    @Override
+    protected void initStyles() {
         title.setAlignment(Pos.CENTER);
         discord.setPadding(new Insets(10, 20, 10, 20));
         discord.setFocusTraversable(false);
@@ -55,7 +61,7 @@ public class TopLayout extends StackPane {
         bar.setRight(rightButtons);
     }
 
-    private void buttonEvents() {
+     protected void handleEvents() {
         openUrlOnButtonClick(github, "https://github.com/useriswave");
         openUrlOnButtonClick(discord, "https://discord.com/users/971493987158482944");
         applyHover(discord);
@@ -81,16 +87,22 @@ public class TopLayout extends StackPane {
         });
     }
 
-
-    private void setIds() {
+    @Override
+    protected void setIds() {
         title.setId("top-title");
         name.setId("top-name");
         discord.setId("top-discord");
         github.setId("top-discord");
     }
 
-    public void registerElements() {
+    @Override
+    protected void registerElements() {
         layout.getChildren().addAll(bar, sep);
-        this.getChildren().addAll(layout, title);
+        stackPane.getChildren().addAll(layout, title);
+    }
+
+    @Override
+    public Parent getRoot() {
+        return stackPane;
     }
 }

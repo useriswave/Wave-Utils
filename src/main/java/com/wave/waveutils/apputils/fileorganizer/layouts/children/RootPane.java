@@ -31,7 +31,7 @@ public class RootPane extends BorderPane {
     }
 
     private void registerChildren() {
-        this.setTop(topLayout);
+        this.setTop(topLayout.getRoot());
         this.setCenter(scrollPane);
     }
 
