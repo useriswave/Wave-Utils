@@ -1,4 +1,4 @@
-package com.wave.waveutils.apputils.fileorganizer.layouts;
+package com.wave.waveutils.apputils.fileorganizer.layouts.children;
 
 import com.wave.waveutils.apputils.fileorganizer.records.FileInfo;
 import com.wave.waveutils.apputils.fileorganizer.cards.ExtensionCard;

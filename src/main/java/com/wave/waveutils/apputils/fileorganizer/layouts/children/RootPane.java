@@ -1,4 +1,4 @@
-package com.wave.waveutils.apputils.fileorganizer.layouts;
+package com.wave.waveutils.apputils.fileorganizer.layouts.children;
 
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
@@ -21,7 +21,7 @@ public class RootPane extends BorderPane {
     private void initChildren() {
         centerLayout = new CenterLayout(stage);
         topLayout = new TopLayout();
-        scrollPane = new ScrollPane(centerLayout);
+        scrollPane = new ScrollPane(centerLayout.getRoot());
     }
 
     private void initStyles() {
