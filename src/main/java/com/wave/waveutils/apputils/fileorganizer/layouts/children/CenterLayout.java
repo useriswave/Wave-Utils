@@ -1,16 +1,19 @@
-package com.wave.waveutils.apputils.fileorganizer.layouts;
+package com.wave.waveutils.apputils.fileorganizer.layouts.children;
 
 import com.wave.waveutils.apputils.fileorganizer.cards.Card;
 import com.wave.waveutils.apputils.fileorganizer.cards.HorizontalCards;
 import com.wave.waveutils.apputils.fileorganizer.dialogs.ConflictDialog;
 import com.wave.waveutils.apputils.fileorganizer.dialogs.ErrorDialog;
 import com.wave.waveutils.apputils.fileorganizer.icons.Icon;
+import com.wave.waveutils.apputils.fileorganizer.layouts.base.BaseLayout;
 import com.wave.waveutils.apputils.fileorganizer.logic.FileOrganizer;
 import com.wave.waveutils.apputils.fileorganizer.records.FolderDecision;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -23,8 +26,9 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.util.ArrayList;
 
-public class CenterLayout extends VBox {
+public class CenterLayout extends BaseLayout {
 
+    private VBox root;
     private Label tagline;
     private Label instantlyLabel;
     private Label description;
@@ -46,19 +50,19 @@ public class CenterLayout extends VBox {
 
     public CenterLayout(Stage stage) {
         this.stage = stage;
-        initUI();
-        result = new Result();
-        result.setVisible(false);
-        result.setManaged(false);
-        setIds();
-        initStyles();
-        registerElements();
+        build();
     }
 
-    private void initUI() {
-        this.setPadding(new Insets(30));
-        this.setAlignment(Pos.CENTER);
-        this.setSpacing(50);
+    protected void initRoot() {
+        this.root = new VBox();
+    }
+
+    protected void initUI() {
+        result = new Result();
+
+        root.setPadding(new Insets(30));
+        root.setAlignment(Pos.CENTER);
+        root.setSpacing(50);
 
         tagline = new Label("Organize your files\n");
         instantlyLabel = new Label("instantly");
@@ -73,13 +77,8 @@ public class CenterLayout extends VBox {
         scanButton = new Button("Scan");
         System.out.println("ENTERED DIRECTORY: " + getEnteredDirectory());
 
-        scanButtonEventHandler();
-        addDirectoryEventHandler();
-        onFieldClick();
 
         heroBox = new VBox(textBox, description);
-
-        //here too
         scannerBox = new VBox(textFieldWrapper, scanButton);
 
         heroCards = new HorizontalCards(
@@ -89,7 +88,18 @@ public class CenterLayout extends VBox {
         );
     }
 
-    private void initStyles() {
+    @Override
+    protected void handleEvents() {
+        scanButtonEventHandler();
+        addDirectoryEventHandler();
+        onFieldClick();
+    }
+
+    @Override
+    protected void initStyles() {
+        result.setVisible(false);
+        result.setManaged(false);
+
         tagline.setTextAlignment(TextAlignment.CENTER);
         tagline.setPadding(new Insets(150, 0, 0, 0));
 
@@ -181,7 +191,7 @@ public class CenterLayout extends VBox {
             result.setManaged(true);
             result.setAlignment(Pos.CENTER);
 
-            this.getChildren().addAll(result);
+            root.getChildren().addAll(result);
         });
     }
 
@@ -216,7 +226,8 @@ public class CenterLayout extends VBox {
         // need to fix mouse drag issue
     }
 
-    private void setIds() {
+    @Override
+    protected void setIds() {
         tagline.setId("tagline");
         instantlyLabel.setId("instantly-label");
         description.setId("description");
@@ -225,8 +236,9 @@ public class CenterLayout extends VBox {
         folderOpenIcon.setId("text-field-stacked-icon");
     }
 
-    private void registerElements() {
-        this.getChildren().addAll(heroBox, scannerBox, heroCards, result);
+    @Override
+    protected void registerElements() {
+        root.getChildren().addAll(heroBox, scannerBox, heroCards, result);
     }
 
     public String getEnteredDirectory() {
@@ -237,5 +249,10 @@ public class CenterLayout extends VBox {
             return folder.getAbsolutePath();
         }
         return directoryField.getText();
+    }
+
+    @Override
+    protected Parent getRoot() {
+        return root;
     }
 }
