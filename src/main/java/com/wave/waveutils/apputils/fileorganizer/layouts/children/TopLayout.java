@@ -1,4 +1,4 @@
-package com.wave.waveutils.apputils.fileorganizer.layouts;
+package com.wave.waveutils.apputils.fileorganizer.layouts.children;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -44,22 +44,11 @@ public class TopLayout extends StackPane {
     }
 
     public void initStyles() {
-        title.setStyle("-fx-font-weight: bold;\n" +
-                "-fx-font-size: 30;");
         title.setAlignment(Pos.CENTER);
-        name.setStyle("-fx-font-weight: bold;\n" +
-                "-fx-font-size: 15;");
-
-        discord.setStyle("-fx-background-color: #5865f2;" + "-fx-text-fill: white;" +
-                "-fx-font-weight: bold;" + "-fx-cursor: hand;" + "-fx-background-radius: 15px;");
         discord.setPadding(new Insets(10, 20, 10, 20));
-
-        github.setStyle("-fx-background-color: black;" + "-fx-text-fill: white;" +
-                "-fx-font-weight: bold;" + "-fx-cursor: hand;" + "-fx-background-radius: 15px;");
-        github.setPadding(new Insets(10, 20, 10, 20));
         discord.setFocusTraversable(false);
+        github.setPadding(new Insets(10, 20, 10, 20));
         github.setFocusTraversable(false);
-
         rightButtons.setAlignment(Pos.CENTER_RIGHT);
         bar.setPadding(new Insets(10, 30, 10, 30));
         bar.setLeft(name);
@@ -92,6 +81,7 @@ public class TopLayout extends StackPane {
         });
     }
 
+
     private void setIds() {
         title.setId("top-title");
         name.setId("top-name");
@@ -100,13 +90,7 @@ public class TopLayout extends StackPane {
     }
 
     public void registerElements() {
-
         layout.getChildren().addAll(bar, sep);
-
         this.getChildren().addAll(layout, title);
     }
 }
-
-
-
-
