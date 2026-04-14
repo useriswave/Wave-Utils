@@ -30,8 +30,7 @@ public class FileOrganizer {
     private File foldersDirectory;
     private File extensionlessFilesFolder;
     private final String directoryFolderName;
-    private String filesWithNoExtensionFolderName;
-    private int totalFoldersCreated;
+    private final String filesWithNoExtensionFolderName;
 
     public FileOrganizer(String pathName) {
         this.pathName = pathName;
@@ -41,7 +40,6 @@ public class FileOrganizer {
         this.fileHandler = new FileHandler(selectedFolders);
         this.directoryFolderName = "Folders";
         this.filesWithNoExtensionFolderName = "Extensionless Files";
-        this.totalFoldersCreated = 0;
     }
 
     public void scanDirectory() {
@@ -58,11 +56,11 @@ public class FileOrganizer {
         }
 
         if(!folderList.isEmpty()) {
-            selectedFolders.add(this.foldersDirectory = new File(pathName + "\\" + "Folders"));
+            selectedFolders.add(this.foldersDirectory = new File(pathName + "\\" + directoryFolderName));
         }
 
         if(!fileWithNoExtension.isEmpty()) {
-            selectedFolders.add(this.extensionlessFilesFolder = new File(pathName + "\\" + "Extensionless Files"));
+            selectedFolders.add(this.extensionlessFilesFolder = new File(pathName + "\\" + filesWithNoExtensionFolderName));
         }
     }
 
