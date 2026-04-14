@@ -3,11 +3,13 @@ package com.wave.waveutils.apputils.fileorganizer.layouts.children;
 import com.wave.waveutils.apputils.fileorganizer.cards.ResultCard;
 import com.wave.waveutils.apputils.fileorganizer.enums.ResultCardType;
 import com.wave.waveutils.apputils.fileorganizer.icons.Icon;
+import com.wave.waveutils.apputils.fileorganizer.layouts.base.BaseLayout;
 import com.wave.waveutils.apputils.fileorganizer.logic.FileOrganizer;
 import com.wave.waveutils.apputils.fileorganizer.records.FileInfo;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
+import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.layout.HBox;
@@ -15,8 +17,9 @@ import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
 
-public class Result extends VBox {
+public class ResultLayout extends BaseLayout {
 
+    private VBox root;
     private Label directory;
     private String enteredDirectory;
     private String statusText;
@@ -31,22 +34,26 @@ public class Result extends VBox {
     private ArrayList<FileInfo> fileInfoList;
     private FileOrganizer fileOrganizer;
 
-    public Result() {}
+    public ResultLayout() {
+        initRoot();
+    }
 
-    public Result(String enteredDirectory, String statusText, ArrayList<FileInfo> fileInfoList, FileOrganizer fileOrganizer) {
+    public ResultLayout(String enteredDirectory, String statusText, ArrayList<FileInfo> fileInfoList, FileOrganizer fileOrganizer) {
         this.enteredDirectory = enteredDirectory;
         this.statusText = "Complete";
         this.fileInfoList = fileInfoList;
         this.fileOrganizer = fileOrganizer;
 
-        initUI();
-        registerElements();
-        initStyles();
-        setIds();
+        build();
     }
 
-    private void initUI() {
+    @Override
+    protected void initRoot() {
+        this.root = new VBox();
+    }
 
+    @Override
+    protected void initUI() {
         directory = new Label(enteredDirectory);
         folderOpenIcon = Icon.loadFolderOpenIcon();
         directoryBox = new HBox(folderOpenIcon, directory);
@@ -70,11 +77,12 @@ public class Result extends VBox {
         extensionsScroller = new ExtensionsScroller(fileInfoList);
     }
 
-    private void initStyles() {
-        this.setSpacing(50);
-        this.setAlignment(Pos.CENTER_LEFT);
-        this.setPrefWidth(900);
-        this.setMaxWidth(950);
+    @Override
+    protected void initStyles() {
+        root.setSpacing(50);
+        root.setAlignment(Pos.CENTER_LEFT);
+        root.setPrefWidth(900);
+        root.setMaxWidth(950);
 
         directoryBox.setSpacing(10);
         directoryBox.setAlignment(Pos.CENTER_LEFT);
@@ -93,16 +101,35 @@ public class Result extends VBox {
         resultCardsBox.setMaxWidth(950);
     }
 
-    private void setIds() {
+    @Override
+    protected void setIds() {
         directory.setId("directory-result");
         separator.setId("separator");
         status.setId("status-result");
         statusInfo.setId("status-info-result");
     }
 
-    private void registerElements() {
-        this.getChildren().addAll(
-                directoryBox, separator, operationInfoWrapper, resultCardsBox, extensionsScroller
+    @Override
+    protected void registerElements() {
+        root.getChildren().addAll(
+                directoryBox, separator, operationInfoWrapper, resultCardsBox, extensionsScroller.getRoot()
         );
+    }
+
+    @Override
+    public Parent getRoot() {
+        return root;
+    }
+
+    public void isVisible(boolean isVisible) {
+        root.setVisible(isVisible);
+    }
+
+    public void isManaged(boolean isManaged) {
+        root.setManaged(isManaged);
+    }
+
+    public void alignTo(Pos pos) {
+        root.setAlignment(pos);
     }
 }

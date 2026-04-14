@@ -1,9 +1,11 @@
 package com.wave.waveutils.apputils.fileorganizer.layouts.children;
 
+import com.wave.waveutils.apputils.fileorganizer.layouts.base.BaseLayout;
 import com.wave.waveutils.apputils.fileorganizer.records.FileInfo;
 import com.wave.waveutils.apputils.fileorganizer.cards.ExtensionCard;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
@@ -11,11 +13,12 @@ import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
 
-public class ExtensionsScroller extends VBox {
+public class ExtensionsScroller extends BaseLayout {
 
     private ScrollPane scrollPane;
     private final ArrayList<FileInfo> fileInfoList;
 
+    private VBox root;
     private HBox scrollerBox;
     private VBox elementBox;
     private Label folderLabel;
@@ -24,13 +27,16 @@ public class ExtensionsScroller extends VBox {
 
     public ExtensionsScroller(ArrayList<FileInfo> fileInfoList) {
         this.fileInfoList = fileInfoList;
-        initUI();
-        initStyles();
-        setIds();
-        registerElements();
+        build();
     }
 
-    private void initUI() {
+    @Override
+    public void initRoot() {
+        this.root = new VBox();
+    }
+
+    @Override
+    protected void initUI() {
         elementBox = new VBox();
         scrollPane = new ScrollPane(elementBox);
 
@@ -48,22 +54,30 @@ public class ExtensionsScroller extends VBox {
         }
     }
 
-    private void initStyles() {
-        this.setPrefWidth(400);
-        this.setMaxHeight(300);
+    @Override
+    protected void initStyles() {
+        root.setPrefWidth(400);
+        root.setMaxHeight(300);
         scrollPane.setPadding(new Insets(15, 30, 15, 30));
         elementBox.setSpacing(15);
     }
 
-    private void setIds() {
+    @Override
+    protected void setIds() {
         folderLabel.setId("folder-label");
         filesFoundLabel.setId("filesfound-label");
         openFolderLabel.setId("openfolder-label");
         scrollPane.setId("scroller-bg");
-        this.setId("scroller-wrapper");
+        root.setId("scroller-wrapper");
     }
 
-    private void registerElements() {
-        this.getChildren().addAll(scrollPane);
+    @Override
+    protected void registerElements() {
+        root.getChildren().addAll(scrollPane);
+    }
+
+    @Override
+    public Parent getRoot() {
+        return root;
     }
 }

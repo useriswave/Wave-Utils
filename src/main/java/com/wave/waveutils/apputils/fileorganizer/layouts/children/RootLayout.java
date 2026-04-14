@@ -4,14 +4,14 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
-public class RootPane extends BorderPane {
+public class RootLayout extends BorderPane {
 
     private final Stage stage;
     private CenterLayout centerLayout;
     private TopLayout topLayout;
     private ScrollPane scrollPane;
 
-    public RootPane(Stage stage) {
+    public RootLayout(Stage stage) {
         this.stage = stage;
         initChildren();
         initStyles();
