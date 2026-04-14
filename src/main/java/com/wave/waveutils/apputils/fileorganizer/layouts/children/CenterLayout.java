@@ -12,9 +12,9 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
@@ -40,7 +40,7 @@ public class CenterLayout extends BaseLayout {
     private Group folderOpenIcon;
     private VBox textBox;
     private StackPane textFieldBox;
-    private Result result;
+    private ResultLayout resultLayout;
     private HBox textFieldWrapper;
     private Group addDirectoryButton;
     private final Stage stage;
@@ -58,7 +58,7 @@ public class CenterLayout extends BaseLayout {
     }
 
     protected void initUI() {
-        result = new Result();
+        resultLayout = new ResultLayout();
 
         root.setPadding(new Insets(30));
         root.setAlignment(Pos.CENTER);
@@ -91,14 +91,16 @@ public class CenterLayout extends BaseLayout {
     @Override
     protected void handleEvents() {
         scanButtonEventHandler();
+        applyHover(scanButton);
+        applyHover(addDirectoryButton);
         addDirectoryEventHandler();
         onFieldClick();
     }
 
     @Override
     protected void initStyles() {
-        result.setVisible(false);
-        result.setManaged(false);
+        resultLayout.isVisible(false);
+        resultLayout.isManaged(false);
 
         tagline.setTextAlignment(TextAlignment.CENTER);
         tagline.setPadding(new Insets(150, 0, 0, 0));
@@ -158,8 +160,8 @@ public class CenterLayout extends BaseLayout {
                 return;
             }
 
-            result.setVisible(false);
-            result.setManaged(false);
+            resultLayout.isVisible(false);
+            resultLayout.isManaged(false);
 
 
             if(!folder.exists() || !folder.isDirectory()) {
@@ -186,12 +188,12 @@ public class CenterLayout extends BaseLayout {
             fileOrganizer.createAllFolders();
             fileOrganizer.moveAllFiles();
 
-            result = new Result(trimmedDirectory, "Complete", fileOrganizer.getFileInfoList(), fileOrganizer);
-            result.setVisible(true);
-            result.setManaged(true);
-            result.setAlignment(Pos.CENTER);
+            resultLayout = new ResultLayout(trimmedDirectory, "Complete", fileOrganizer.getFileInfoList(), fileOrganizer);
+            resultLayout.isVisible(true);
+            resultLayout.isManaged(true);
+            resultLayout.alignTo(Pos.CENTER);
 
-            root.getChildren().addAll(result);
+            root.getChildren().addAll(resultLayout.getRoot());
         });
     }
 
@@ -238,7 +240,7 @@ public class CenterLayout extends BaseLayout {
 
     @Override
     protected void registerElements() {
-        root.getChildren().addAll(heroBox, scannerBox, heroCards, result);
+        root.getChildren().addAll(heroBox, scannerBox, heroCards, resultLayout.getRoot());
     }
 
     public String getEnteredDirectory() {

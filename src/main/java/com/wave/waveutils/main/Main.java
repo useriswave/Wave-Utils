@@ -1,6 +1,6 @@
 package com.wave.waveutils.main;
 
-import com.wave.waveutils.apputils.fileorganizer.layouts.RootPane;
+import com.wave.waveutils.apputils.fileorganizer.layouts.children.RootLayout;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -16,7 +16,7 @@ public class Main extends Application {
         final int WIDTH = 1200;
         final int HEIGHT = 800;
 
-        var root = new RootPane(stage);
+        var root = new RootLayout(stage);
 
         Scene scene = new Scene(root, WIDTH, HEIGHT);
         loadLightMode(scene);
@@ -28,13 +28,14 @@ public class Main extends Application {
 
     private void loadLightMode(Scene scene) {
         scene.getStylesheets().addAll(
-                getClass().getResource("/com/wave/waveutils/styles/light-mode/mainpage/light-mode.css").toExternalForm(),
+                getClass().getResource("/com/wave/waveutils/styles/light-mode/layouts/mainpage/light-mode.css").toExternalForm(),
                 getClass().getResource("/com/wave/waveutils/styles/light-mode/cardstyles/hero-cards/all-cards.css").toExternalForm(),
                 getClass().getResource("/com/wave/waveutils/styles/light-mode/icons/icons.css").toExternalForm(),
                 getClass().getResource("/com/wave/waveutils/styles/light-mode/result/result.css").toExternalForm(),
                 getClass().getResource("/com/wave/waveutils/styles/light-mode/cardstyles/result-cards/result-cards.css").toExternalForm(),
                 getClass().getResource("/com/wave/waveutils/styles/light-mode/cardstyles/extension-cards/extension-card.css").toExternalForm(),
-                getClass().getResource("/com/wave/waveutils/styles/dialogs/dialog-style.css").toExternalForm()
+                getClass().getResource("/com/wave/waveutils/styles/dialogs/dialog-style.css").toExternalForm(),
+                getClass().getResource("/com/wave/waveutils/styles/light-mode/layouts/toplayout/top-layout.css").toExternalForm()
         );
     }
 }
