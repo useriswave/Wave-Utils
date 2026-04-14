@@ -27,6 +27,15 @@ public abstract class BaseLayout {
 
     protected void handleEvents() {}
 
+    protected void applyHover(Parent btn) {
+        btn.setOnMouseEntered( event-> {
+            btn.setOpacity(0.5);
+        });
+        btn.setOnMouseExited(e -> {
+            btn.setOpacity(1);
+        });
+    }
+
     protected abstract void initStyles();
 
     protected abstract void setIds();

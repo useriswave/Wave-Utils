@@ -17,7 +17,7 @@ import java.awt.*;
 import java.net.URI;
 
 public class TopLayout extends BaseLayout {
-    private StackPane stackPane;
+    private StackPane root;
     private VBox layout;
     private BorderPane bar;
     private Label name;
@@ -33,7 +33,7 @@ public class TopLayout extends BaseLayout {
 
     @Override
     protected void initRoot() {
-         this.stackPane = new StackPane();
+         this.root = new StackPane();
     }
 
     @Override
@@ -78,31 +78,22 @@ public class TopLayout extends BaseLayout {
         });
     }
 
-    private void applyHover(Button btn) {
-        btn.setOnMouseEntered( event-> {
-            btn.setOpacity(0.5);
-        });
-        btn.setOnMouseExited(e -> {
-            btn.setOpacity(1);
-        });
-    }
-
     @Override
     protected void setIds() {
         title.setId("top-title");
         name.setId("top-name");
         discord.setId("top-discord");
-        github.setId("top-discord");
+        github.setId("top-github");
     }
 
     @Override
     protected void registerElements() {
         layout.getChildren().addAll(bar, sep);
-        stackPane.getChildren().addAll(layout, title);
+        root.getChildren().addAll(layout, title);
     }
 
     @Override
     public Parent getRoot() {
-        return stackPane;
+        return root;
     }
 }
