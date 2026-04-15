@@ -113,13 +113,11 @@ public class FileOrganizer {
 
         for (File file : validFiles) {
             String fileName = file.getName();
-
             extensions.add(fileName.substring(fileName.lastIndexOf('.')));
         }
 
         for (File file : complicatedFiles) {
             String fileName = file.getName();
-
             extensions.add(fileName.substring(fileName.lastIndexOf('.')));
         }
     }
@@ -212,11 +210,7 @@ public class FileOrganizer {
                 Path source = file.toPath();
                 Path target = getProperSourceFolder(selectedFolder.getName(), file.getName()).toPath();
 
-                try {
-                    Files.move(source, target);
-                } catch (IOException e) {
-                    System.out.println(e.getMessage());
-                }
+                moveSourceToTarget(source, target);
                 return;
             }
         }
@@ -239,25 +233,16 @@ public class FileOrganizer {
             Path source = file.toPath();
             Path target = getProperSourceFolder(extensionlessFilesFolder.getName(), file.getName()).toPath();
 
-            try {
-                Files.move(source, target);
-            } catch (IOException e) {
-                System.out.println(e.getMessage());
-            }
+            moveSourceToTarget(source, target);
         }
     }
 
     public void moveFoldersToFoldersDirectory() {
-
         for(File folder : folderList) {
             Path source = folder.toPath();
             Path target = getProperSourceFolder(foldersDirectory.getName(), folder.getName()).toPath();
 
-            try {
-                Files.move(source, target);
-            } catch (IOException e) {
-                System.out.println(e.getMessage());
-            }
+            moveSourceToTarget(source, target);
         }
     }
 
@@ -268,6 +253,14 @@ public class FileOrganizer {
             }
         }
         return null;
+    }
+
+    private void moveSourceToTarget(Path source, Path target) {
+        try {
+            Files.move(source, target);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public int getTotalFiles() {

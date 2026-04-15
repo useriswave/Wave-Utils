@@ -1,6 +1,5 @@
 package com.wave.waveutils.apputils.fileorganizer.layouts.base;
 
-import javafx.scene.Node;
 import javafx.scene.Parent;
 
 public abstract class BaseLayout {

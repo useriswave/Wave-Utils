@@ -5,7 +5,7 @@ import javafx.scene.layout.*;
 
 public class HorizontalCards extends HBox {
 
-    private Card[] cardList;
+    private final Card[] cardList;
 
     public HorizontalCards(Card... cards) {
         this.cardList = cards;
