@@ -14,6 +14,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 import java.awt.*;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -71,31 +72,20 @@ public class TopLayout extends BaseLayout {
 
     private void openUrlOnButtonClick(Button btn, String url) {
         btn.setOnAction(event -> {
-                if(Desktop.isDesktopSupported()) {
-                    Desktop desktop= Desktop.getDesktop();
-                    URI uri = null;
-                    try {
-                        uri = new URI(url);
-                    } catch (URISyntaxException e) {
-                        throw new RuntimeException(e);
-                    }
-                    if(desktop.isSupported(Desktop.Action.BROWSE)) {
-                        try {
-                            desktop.browse(uri);
-                        } catch (Exception e) {
-                            System.out.println("Unable to open URL");
-                        }
-                    }
-                    else {
-                        // fallback for linux systems
-                        try {
-                            Runtime.getRuntime().exec(new String[]{"xdg-open", uri.toString()});
-                        }
-                        catch(Exception e) {
-                            System.out.println("ERROR: Your system cannot open the URL.");
-                        }
+            try {
+                URI uri = new URI(url);
+                if (Desktop.isDesktopSupported()) {
+                    Desktop desktop = Desktop.getDesktop();
+                    if (desktop.isSupported(Desktop.Action.BROWSE)) {
+                        desktop.browse(uri);
+                    } else {
+                        // fallback for Linux systems
+                        Runtime.getRuntime().exec(new String[]{"xdg-open", uri.toString()});
                     }
                 }
+            } catch (URISyntaxException | IOException e) {
+                throw new RuntimeException(e);
+            }
         });
     }
 
