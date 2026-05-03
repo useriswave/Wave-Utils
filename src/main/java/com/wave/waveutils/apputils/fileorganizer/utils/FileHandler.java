@@ -47,7 +47,7 @@ public class FileHandler {
 
         String currentDirectory = directory.getAbsolutePath();
 
-        File copyFile = new File(currentDirectory + "\\" + folder.getName() + COPY_IDENTIFIER + " " + copyCount);
+        File copyFile = new File(currentDirectory + File.separator + folder.getName() + COPY_IDENTIFIER + " " + copyCount);
 
         if(!copyFile.mkdir()) {
             System.out.printf("File '%s' has not been created.\n", copyFile.getName());

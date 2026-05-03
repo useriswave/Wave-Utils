@@ -54,12 +54,24 @@ public class ExtensionCard extends VBox {
 
     public void openButtonEventHandler() {
         openButton.setOnAction(event -> {
-            var folder = new File(fileInfo.file().getAbsolutePath());
-            try {
-                Desktop.getDesktop().open(folder);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            //var folder = new File(fileInfo.file().getAbsolutePath());
+            String path = fileInfo.file().getAbsolutePath();
+            var os = System.getProperty("os.name").toLowerCase();
+
+                try {
+                    if(os.contains("win")) {
+                        new ProcessBuilder("explorer.exe", path).start();
+                    }
+                    else if(os.contains("mac")) {
+                        new ProcessBuilder("open", path).start();
+                    }
+                    else {
+                        new ProcessBuilder("xdg-open", path).start();
+                    }
+
+                } catch(IOException e) {
+                    e.printStackTrace();
+                }
         });
     }
 

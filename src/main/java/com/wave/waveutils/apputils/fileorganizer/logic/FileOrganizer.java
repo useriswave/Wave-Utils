@@ -52,15 +52,15 @@ public class FileOrganizer {
 
     private void defineSelectedFolders() {
         for(String extension : uniqueExtensions) {
-            selectedFolders.add(new File(pathName + "\\" + extension.substring(1) + " Folder"));
+            selectedFolders.add(new File(pathName + File.separator + extension.substring(1) + " Folder"));
         }
 
         if(!folderList.isEmpty()) {
-            selectedFolders.add(this.foldersDirectory = new File(pathName + "\\" + directoryFolderName));
+            selectedFolders.add(this.foldersDirectory = new File(pathName + File.separator + directoryFolderName));
         }
 
         if(!fileWithNoExtension.isEmpty()) {
-            selectedFolders.add(this.extensionlessFilesFolder = new File(pathName + "\\" + filesWithNoExtensionFolderName));
+            selectedFolders.add(this.extensionlessFilesFolder = new File(pathName + File.separator + filesWithNoExtensionFolderName));
         }
     }
 
@@ -249,7 +249,7 @@ public class FileOrganizer {
     private File getProperSourceFolder(String folderName, String fileName) {
         for (File folder : selectedFolders) {
             if (folder.getName().equals(folderName)) {
-                return new File(folder.getAbsolutePath() + "\\" + fileName);
+                return new File(folder.getAbsolutePath() + File.separator + fileName);
             }
         }
         return null;
